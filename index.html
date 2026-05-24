@@ -16,27 +16,23 @@ body {
     min-height: 100vh;
 }
 
-/* FLORES */
-.floral{
-    position:fixed;
-    width:240px;
-    opacity:0.85;
-    z-index:1;
-    pointer-events:none;
+.floral {
+    position: fixed;
+    width: 240px;
+    opacity: 0.85;
+    z-index: 1;
+    pointer-events: none;
     animation: float 6s ease-in-out infinite;
 }
-
-.tl{top:-10px; left:-10px;}
-.tr{top:-10px; right:-10px; transform:scaleX(-1);}
-.bl{bottom:-10px; left:-10px; transform:scaleY(-1);}
-.br{bottom:-10px; right:-10px; transform:scale(-1);}
-
-@keyframes float{
-    0%,100%{transform:translateY(0);}
-    50%{transform:translateY(10px);}
+.tl { top:-10px; left:-10px; }
+.tr { top:-10px; right:-10px; transform:scaleX(-1); }
+.bl { bottom:-10px; left:-10px; transform:scaleY(-1); }
+.br { bottom:-10px; right:-10px; transform:scale(-1); }
+@keyframes float {
+    0%,100% { transform:translateY(0); }
+    50% { transform:translateY(10px); }
 }
 
-/* HEADER */
 header { padding: 40px 20px 15px; position: relative; z-index: 2; }
 header h1 {
     font-size: 3.2rem;
@@ -46,7 +42,6 @@ header h1 {
 }
 header p { color: #42D7EB; margin-top: 6px; }
 
-/* CONTENEDOR */
 .container {
     display: flex;
     flex-direction: column;
@@ -56,24 +51,35 @@ header p { color: #42D7EB; margin-top: 6px; }
     padding-bottom: 60px;
 }
 
-/* VISOR DE PÁGINAS */
+/* VISOR */
 .book-wrapper {
     position: relative;
     width: 340px;
+    margin: 20px auto;
 }
 
 .page-container {
-    width: 340px;
     position: relative;
+    width: 340px;
 }
 
-.page img {
+/* Página 1: relativa, da altura al contenedor */
+.page-1 {
+    position: relative;
     width: 100%;
-    object-fit: unset;  
-    display: block;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+    border: 1px solid rgba(66,215,235,0.3);
+    backface-visibility: hidden;
+    transition: transform 0.7s cubic-bezier(0.645, 0.045, 0.355, 1.000), opacity 0.7s ease;
+    transform: rotateY(0deg);
+    opacity: 1;
+    z-index: 2;
 }
 
-.page {
+/* Página 2: absoluta encima */
+.page-2 {
     position: absolute;
     top: 0; left: 0;
     width: 100%;
@@ -81,42 +87,21 @@ header p { color: #42D7EB; margin-top: 6px; }
     border-radius: 12px;
     overflow: hidden;
     box-shadow: 0 20px 60px rgba(0,0,0,0.25);
-    border: 1px solid rgba(176,141,87,0.3);
-    backface-visibility: hidden;
-    transition: transform 0.7s cubic-bezier(0.645, 0.045, 0.355, 1.000),
-                opacity 0.7s ease;
-}
-
-/* Estado: página 1 visible */
-.page-1 {
-    position: relative;  /* ✅ cambia de absolute a relative */
-    width: 100%;
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.25);
-    border: 1px solid rgba(176,141,87,0.3);
-    backface-visibility: hidden;
-    transition: transform 0.7s cubic-bezier(0.645, 0.045, 0.355, 1.000), opacity 0.7s ease;
-    transform: rotateY(0deg);
-    opacity: 1;
-    z-index: 2;
-}
-.page-2 {
-    position: absolute;  /* ✅ sigue absoluta */
-    top: 0; left: 0;
-    width: 100%;
-    height: 100%;
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.25);
-    border: 1px solid rgba(176,141,87,0.3);
+    border: 1px solid rgba(66,215,235,0.3);
     backface-visibility: hidden;
     transition: transform 0.7s cubic-bezier(0.645, 0.045, 0.355, 1.000), opacity 0.7s ease;
     transform: rotateY(180deg);
     opacity: 0;
     z-index: 1;
 }
-/* Estado: página 2 visible */
+
+.page-1 img, .page-2 img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* Cuando se muestra página 2 */
 .show-page2 .page-1 {
     transform: rotateY(-180deg);
     opacity: 0;
@@ -128,7 +113,7 @@ header p { color: #42D7EB; margin-top: 6px; }
     z-index: 2;
 }
 
-/* INDICADOR DE PÁGINA */
+/* INDICADORES */
 .page-indicator {
     display: flex;
     gap: 8px;
@@ -139,7 +124,7 @@ header p { color: #42D7EB; margin-top: 6px; }
     width: 10px;
     height: 10px;
     border-radius: 50%;
-    background: rgba(176,141,87,0.3);
+    background: rgba(66,215,235,0.3);
     transition: background 0.3s;
     cursor: pointer;
 }
@@ -165,7 +150,6 @@ header p { color: #42D7EB; margin-top: 6px; }
 .controls button:hover { transform: scale(1.07); }
 .controls button:disabled { opacity: 0.3; cursor: default; transform: none; }
 
-/* FORMULARIO */
 .formulario {
     margin-top: 10px;
     font-size: 1.2rem;
@@ -178,22 +162,19 @@ header p { color: #42D7EB; margin-top: 6px; }
     font-weight: bold;
 }
 
-/* MÚSICA */
-#playMusic {
-    margin-top: 20px;
-    padding: 12px 28px;
-    border: none;
-    border-radius: 40px;
-    background: linear-gradient(135deg, #42D7EB, #A7FCEC);
-    color: white;
-    cursor: pointer;
-    font-size: 1rem;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-    transition: transform 0.2s;
+/* Indicador de música (sutil, sin botón) */
+#musicNote {
+    margin-top: 16px;
+    font-size: 1.4rem;
+    opacity: 0;
+    animation: fadeNote 2s ease 2s forwards;
 }
-#playMusic:hover { transform: scale(1.05); }
+@keyframes fadeNote {
+    0%   { opacity: 0; transform: translateY(4px); }
+    50%  { opacity: 1; transform: translateY(0); }
+    100% { opacity: 0.5; }
+}
 
-/* FOOTER */
 footer {
     margin: 30px 0 20px;
     color: #7a6656;
@@ -201,21 +182,17 @@ footer {
     z-index: 2;
 }
 
-/* MÓVIL */
 @media (max-width: 600px) {
     header h1 { font-size: 2.4rem; }
     .floral { width: 140px; }
-    .book-wrapper, .page-container { 
-        width: 88vw; 
-        height: auto;  /* ✅ sin calc(), sin altura fija */
-    }
+    .book-wrapper, .page-container { width: 88vw; }
 }
 </style>
 </head>
 <body>
 
-<img src="flores-top-left.jpg"   class="floral tl">
-<img src="flores-top-right.png"  class="floral tr">
+<img src="flores-top-left.jpg"    class="floral tl">
+<img src="flores-top-right.png"   class="floral tr">
 <img src="flores-bottom-left.png" class="floral bl">
 <img src="flores-bottom-right.png" class="floral br">
 
@@ -227,10 +204,10 @@ footer {
 
     <div class="book-wrapper">
         <div class="page-container" id="pageContainer">
-            <div class="page page-1">
+            <div class="page-1">
                 <img src="1.png" alt="Invitación - Página 1">
             </div>
-            <div class="page page-2">
+            <div class="page-2">
                 <img src="2.png" alt="Invitación - Página 2">
             </div>
         </div>
@@ -251,9 +228,12 @@ footer {
         <a href="https://forms.gle/F862XggiaJDcb5yc9" target="_blank">formulario</a>
     </div>
 
+    <div id="musicNote">🎵</div>
+
     <audio id="music" loop autoplay muted>
-      <source src="musica.mp3" type="audio/mpeg">
+        <source src="musica.mp3" type="audio/mpeg">
     </audio>
+
 </div>
 
 <footer>Con mucho cariño ❤️</footer>
@@ -271,23 +251,28 @@ function updateUI() {
     container.classList.toggle("show-page2", currentPage === 2);
 }
 
-function nextPage() {
-    if (currentPage < totalPages) { currentPage++; updateUI(); }
-}
-function prevPage() {
-    if (currentPage > 1) { currentPage--; updateUI(); }
-}
-function goToPage(n) {
-    currentPage = n; updateUI();
-}
+function nextPage() { if (currentPage < totalPages) { currentPage++; updateUI(); } }
+function prevPage() { if (currentPage > 1) { currentPage--; updateUI(); } }
+function goToPage(n) { currentPage = n; updateUI(); }
 
-/* Animación de bienvenida: muestra página 2 brevemente y vuelve */
+/* Animación de bienvenida */
 window.addEventListener("load", () => {
     setTimeout(() => {
         currentPage = 2; updateUI();
         setTimeout(() => { currentPage = 1; updateUI(); }, 1200);
     }, 1000);
 });
+
+/* ✅ Música: autoplay silenciado + desmutea al primer clic en cualquier sitio */
+const music = document.getElementById("music");
+music.load();
+
+document.addEventListener("click", () => {
+    if (music.muted) {
+        music.muted = false;
+        music.play().catch(() => {});
+    }
+}, { once: true });
 </script>
 </body>
 </html>
