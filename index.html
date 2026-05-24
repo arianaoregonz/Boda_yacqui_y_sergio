@@ -60,10 +60,11 @@ const bookElement = document.getElementById("book");
 
 /* 📖 LIBRO PREMIUM */
 const pageFlip = new PageFlip(bookElement, {
-    width: 340,
-    height: 480,
+    width:  isMobile ? window.innerWidth * 0.88 : 340,
+    height: isMobile ? window.innerHeight * 0.65 : 480,
     size: "fixed",
     showCover: true,
+    usePortrait: true,        // ✅ Esto es lo que necesitas: una página a la vez
     mobileScrollSupport: true,
     useMouseEvents: true,
     flippingTime: 1000,
