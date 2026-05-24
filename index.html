@@ -113,10 +113,23 @@
     
   </div>
 
-  <!-- Música -->
-  <audio autoplay loop>
-    <source src="musica.m4a" type="audio/mpeg">
-  </audio>
+<audio id="music" loop>
+  <source src="musica.m4a" type="audio/mp4">
+</audio>
+
+<button id="playMusic">
+  🎵 Say yes!
+</button>
+
+<script>
+  const button = document.getElementById("playMusic");
+  const music = document.getElementById("music");
+
+  button.addEventListener("click", () => {
+    music.play();
+    button.style.display = "none";
+  });
+</script>
 
   <footer>
     Con mucho cariño ❤️
