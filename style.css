@@ -119,9 +119,3 @@ footer{
     margin:60px 0 20px;
     color:#7a6656;
 }
-
-/* brillo sutil dorado */
-.book::after{
-    content:"";
-    position:absolute;
-}
