@@ -5,102 +5,123 @@
 }
 
 body{
-    background:#F6EFE7;
-    font-family: 'Georgia', serif;
-    color:#5A4636;
+    font-family:'Georgia', serif;
     text-align:center;
+    color:#3a2f28;
+
+    /* ✨ papel premium */
+    background:
+      radial-gradient(circle at top, #fffdf8, #f3ece3);
 }
 
-/* CABECERA */
+/* 🌿 FLORES REALISTAS */
+.floral{
+    position:fixed;
+    width:260px;
+    opacity:0.85;
+    z-index:1;
+    pointer-events:none;
 
+    animation: float 6s ease-in-out infinite;
+}
+
+.tl{top:-20px; left:-20px;}
+.tr{top:-20px; right:-20px; transform:scaleX(-1);}
+.bl{bottom:-20px; left:-20px; transform:scaleY(-1);}
+.br{bottom:-20px; right:-20px; transform:scale(-1);}
+
+@keyframes float{
+    0%,100%{ transform: translateY(0px) scale(1); }
+    50%{ transform: translateY(10px) scale(1.02); }
+}
+
+/* HEADER */
 header{
-    padding:60px 20px 30px;
+    padding:60px 20px 20px;
 }
 
 header h1{
     font-size:4rem;
     font-weight:normal;
-    letter-spacing:2px;
-    color:#7A5C46;
+
+    /* 💛 efecto dorado suave */
+    background: linear-gradient(90deg, #b08d57, #e2c58b, #b08d57);
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
 }
 
 header p{
-    margin-top:15px;
-    font-size:1.2rem;
-    color:#8D6E58;
+    color:#7a6656;
 }
 
-/* CONTENIDO */
+/* BOOK */
+.book{
+    margin:20px auto;
+    box-shadow:0 30px 90px rgba(0,0,0,0.25);
+    border-radius:18px;
 
-.container{
-    width:90%;
-    max-width:1000px;
-    margin:auto;
+    /* 📜 papel real */
+    background-image:url("https://www.transparenttextures.com/patterns/old-mathematics.png");
+    border:1px solid rgba(176,141,87,0.25);
 }
 
-/* PDF */
-
-.pdf{
+/* páginas */
+.page img{
     width:100%;
-    height:80vh;
-    border:none;
-    border-radius:20px;
-    box-shadow:0 8px 30px rgba(0,0,0,0.12);
-    background:white;
-    margin-top:20px;
+    height:100%;
+    object-fit:cover;
 }
 
-/* FORMULARIO */
+/* CONTROLS */
+.controls button{
+    margin:10px;
+    padding:12px 18px;
+    border:none;
+    border-radius:50px;
 
+    background:linear-gradient(135deg,#c8a96a,#8b6b3f);
+    color:white;
+    cursor:pointer;
+
+    box-shadow:0 10px 25px rgba(0,0,0,0.2);
+}
+
+.controls button:hover{
+    transform:scale(1.05);
+}
+
+/* FORM */
 .formulario{
-    margin-top:40px;
-    font-size:1.4rem;
+    margin-top:30px;
+    font-size:1.3rem;
 }
 
 .formulario a{
+    color:#b08d57;
+    border-bottom:2px solid #b08d57;
     text-decoration:none;
-    color:#A67B5B;
-    font-weight:bold;
-    border-bottom:2px solid #A67B5B;
-    transition:0.3s;
-}
-
-.formulario a:hover{
-    color:#7A5C46;
-    border-color:#7A5C46;
 }
 
 /* BOTÓN MÚSICA */
-
 #playMusic{
-    margin-top:30px;
-    padding:16px 32px;
+    margin-top:25px;
+    padding:14px 28px;
     border:none;
-    border-radius:50px;
-    background:#A67B5B;
-    color:white;
-    font-size:1rem;
-    cursor:pointer;
-    transition:0.3s;
-    box-shadow:0 5px 15px rgba(0,0,0,0.15);
-}
+    border-radius:40px;
 
-#playMusic:hover{
-    transform:scale(1.05);
-    background:#8B684D;
+    background:linear-gradient(135deg,#b08d57,#d8b97a);
+    color:white;
+    cursor:pointer;
 }
 
 /* FOOTER */
-
 footer{
     margin:60px 0 20px;
-    color:#8D6E58;
-    font-size:0.9rem;
+    color:#7a6656;
 }
 
-.book {
-    margin:20px auto;
-    box-shadow:0 25px 80px rgba(0,0,0,0.18);
-    border-radius:20px;
-    border:1px solid rgba(32,178,170,0.3);
+/* brillo sutil dorado */
+.book::after{
+    content:"";
+    position:absolute;
 }
