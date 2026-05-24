@@ -2,55 +2,81 @@
 <html lang="es">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Boda Yacqui & Sergio</title>
+<title>Boda Yacqui & Sergio</title>
 
-  <link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="style.css">
+
+<!-- Librería flipbook -->
+<script src="https://unpkg.com/page-flip/dist/js/page-flip.browser.min.js"></script>
+
 </head>
 
 <body>
 
-  <header>
-    <h1>Yacqui & Sergio</h1>
-    <p>03 · Octubre · 2026</p>
-  </header>
+<header>
+  <h1>Yacqui & Sergio</h1>
+  <p>03 · Octubre · 2026</p>
+</header>
 
-  <div class="container">
+<div class="container">
 
-    <iframe class="pdf" src="Boda.pdf"></iframe>
+  <!-- FLIPBOOK -->
+  <div id="book" class="book">
 
-    <div class="formulario">
-      Confirma tu asistencia en el siguiente
-      <a href="https://forms.gle/F862XggiaJDcb5yc9" target="_blank">
-        formulario
-      </a>
-    </div>
-
-    <audio id="music" loop>
-      <source src="musica.m4a" type="audio/mp4">
-    </audio>
-
-    <button id="playMusic">
-      🎵 Play
-    </button>
+    <div class="page"><img src="paginas/1.jpg"></div>
+    <div class="page"><img src="paginas/2.jpg"></div>
+    <div class="page"><img src="paginas/3.jpg"></div>
+    <div class="page"><img src="paginas/4.jpg"></div>
 
   </div>
 
-  <footer>
-    Con mucho cariño ❤️
-  </footer>
+  <!-- flechas -->
+  <div class="controls">
+    <button id="prev">⬅</button>
+    <button id="next">➡</button>
+  </div>
 
-  <script>
-    const button = document.getElementById("playMusic");
-    const music = document.getElementById("music");
+  <div class="formulario">
+    Confirma tu asistencia en el siguiente
+    <a href="https://forms.gle/F862XggiaJDcb5yc9" target="_blank">formulario</a>
+  </div>
 
-    button.addEventListener("click", () => {
-      music.play();
-      button.style.display = "none";
-    });
-  </script>
+  <audio id="music" loop>
+    <source src="musica.m4a" type="audio/mp4">
+  </audio>
+
+  <button id="playMusic">🎵 Play</button>
+
+</div>
+
+<footer>Con mucho cariño ❤️</footer>
+
+<script>
+const pageFlip = new St.PageFlip(document.getElementById("book"), {
+    width: 420,
+    height: 600,
+    size: "stretch",
+    showCover: true,
+    mobileScrollSupport: true
+});
+
+pageFlip.loadFromHTML(document.querySelectorAll(".page"));
+
+document.getElementById("next").addEventListener("click", () => pageFlip.flipNext());
+document.getElementById("prev").addEventListener("click", () => pageFlip.flipPrev());
+
+// música
+const button = document.getElementById("playMusic");
+const music = document.getElementById("music");
+
+button.addEventListener("click", () => {
+  music.play();
+  button.style.display = "none";
+});
+</script>
 
 </body>
 </html>
