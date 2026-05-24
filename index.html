@@ -3,100 +3,289 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Boda Yacqui & Sergio</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
 
-<link rel="stylesheet" href="style.css">
+body {
+    font-family: 'Georgia', serif;
+    text-align: center;
+    color: #3a2f28;
+    background: radial-gradient(circle at top, #fffdf8, #f3ece3);
+    overflow-x: hidden;
+    min-height: 100vh;
+}
 
-<script src="https://unpkg.com/page-flip/dist/js/page-flip.browser.min.js"></script>
+/* FLORES */
+.floral {
+    position: fixed;
+    width: 200px;
+    opacity: 0.85;
+    z-index: 1;
+    pointer-events: none;
+}
+.tl { top: -10px; left: -10px; }
+.tr { top: -10px; right: -10px; transform: scaleX(-1); }
+.bl { bottom: -10px; left: -10px; transform: scaleY(-1); }
+.br { bottom: -10px; right: -10px; transform: scale(-1); }
+
+/* HEADER */
+header { padding: 40px 20px 15px; position: relative; z-index: 2; }
+header h1 {
+    font-size: 3.2rem;
+    background: linear-gradient(90deg, #b08d57, #e2c58b, #b08d57);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+header p { color: #7a6656; margin-top: 6px; }
+
+/* CONTENEDOR */
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    z-index: 2;
+    padding-bottom: 60px;
+}
+
+/* VISOR DE PÁGINAS */
+.book-wrapper {
+    position: relative;
+    width: 340px;
+    height: 520px;
+    margin: 20px auto;
+    perspective: 1200px;
+}
+
+.page-container {
+    width: 340px;
+    height: 520px;
+    position: relative;
+}
+
+.page {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+    border: 1px solid rgba(176,141,87,0.3);
+    backface-visibility: hidden;
+    transition: transform 0.7s cubic-bezier(0.645, 0.045, 0.355, 1.000),
+                opacity 0.7s ease;
+}
+
+.page img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+/* Estado: página 1 visible */
+.page-1 {
+    transform: rotateY(0deg);
+    opacity: 1;
+    z-index: 2;
+}
+.page-2 {
+    transform: rotateY(180deg);
+    opacity: 0;
+    z-index: 1;
+}
+
+/* Estado: página 2 visible */
+.show-page2 .page-1 {
+    transform: rotateY(-180deg);
+    opacity: 0;
+    z-index: 1;
+}
+.show-page2 .page-2 {
+    transform: rotateY(0deg);
+    opacity: 1;
+    z-index: 2;
+}
+
+/* INDICADOR DE PÁGINA */
+.page-indicator {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    margin: 12px 0;
+}
+.dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: rgba(176,141,87,0.3);
+    transition: background 0.3s;
+    cursor: pointer;
+}
+.dot.active { background: #b08d57; }
+
+/* CONTROLES */
+.controls {
+    display: flex;
+    gap: 16px;
+    margin: 8px 0 20px;
+}
+.controls button {
+    padding: 12px 28px;
+    border: none;
+    border-radius: 50px;
+    background: linear-gradient(135deg, #c8a96a, #8b6b3f);
+    color: white;
+    cursor: pointer;
+    font-size: 1.1rem;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    transition: transform 0.2s, opacity 0.2s;
+}
+.controls button:hover { transform: scale(1.07); }
+.controls button:disabled { opacity: 0.3; cursor: default; transform: none; }
+
+/* FORMULARIO */
+.formulario {
+    margin-top: 10px;
+    font-size: 1.2rem;
+    color: #3a2f28;
+}
+.formulario a {
+    color: #b08d57;
+    border-bottom: 2px solid #b08d57;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+/* MÚSICA */
+#playMusic {
+    margin-top: 20px;
+    padding: 12px 28px;
+    border: none;
+    border-radius: 40px;
+    background: linear-gradient(135deg, #b08d57, #d8b97a);
+    color: white;
+    cursor: pointer;
+    font-size: 1rem;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    transition: transform 0.2s;
+}
+#playMusic:hover { transform: scale(1.05); }
+
+/* FOOTER */
+footer {
+    margin: 30px 0 20px;
+    color: #7a6656;
+    position: relative;
+    z-index: 2;
+}
+
+/* MÓVIL */
+@media (max-width: 600px) {
+    header h1 { font-size: 2.4rem; }
+    .floral { width: 140px; }
+    .book-wrapper, .page-container { width: 88vw; height: 70vw * 1.55; }
+    .page-container { height: calc(88vw * 1.55); }
+    .book-wrapper { height: calc(88vw * 1.55); }
+}
+</style>
 </head>
-
 <body>
 
-<!-- 🌿 FLORES PREMIUM -->
-<img src="flores-top-left.jpg" class="floral tl">
-<img src="flores-top-right.png" class="floral tr">
+<img src="flores-top-left.jpg"   class="floral tl">
+<img src="flores-top-right.png"  class="floral tr">
 <img src="flores-bottom-left.png" class="floral bl">
 <img src="flores-bottom-right.png" class="floral br">
 
 <header>
-  <h1>Yacqui & Sergio</h1>
-  <p>03 · Octubre · 2026</p>
+    <h1>Yacqui &amp; Sergio</h1>
+    <p>03 · Octubre · 2026</p>
 </header>
 
 <div class="container">
 
-  <!-- 📖 LIBRO -->
-  <div id="book" class="book">
+    <div class="book-wrapper">
+        <div class="page-container" id="pageContainer">
+            <div class="page page-1">
+                <img src="1.png" alt="Invitación - Página 1">
+            </div>
+            <div class="page page-2">
+                <img src="2.png" alt="Invitación - Página 2">
+            </div>
+        </div>
+    </div>
 
-    <div class="page"><img src="1.png"></div>
-    <div class="page"><img src="2.png"></div>
+    <div class="page-indicator">
+        <div class="dot active" id="dot1" onclick="goToPage(1)"></div>
+        <div class="dot"        id="dot2" onclick="goToPage(2)"></div>
+    </div>
 
-  </div>
+    <div class="controls">
+        <button id="prev" onclick="prevPage()" disabled>⬅</button>
+        <button id="next" onclick="nextPage()">➡</button>
+    </div>
 
-  <!-- CONTROLES -->
-  <div class="controls">
-    <button id="prev">⬅</button>
-    <button id="next">➡</button>
-  </div>
+    <div class="formulario">
+        Confirma tu asistencia en el
+        <a href="https://forms.gle/F862XggiaJDcb5yc9" target="_blank">formulario</a>
+    </div>
 
-  <div class="formulario">
-    Confirma tu asistencia en el
-    <a href="https://forms.gle/F862XggiaJDcb5yc9" target="_blank">formulario</a>
-  </div>
-
-  <audio id="music" loop>
-    <source src="musica.mp3" type="audio/mp3">
-  </audio>
-
-  <button id="playMusic">🎵 Play</button>
+    <audio id="music" loop>
+        <source src="musica.mp3" type="audio/mpeg">
+    </audio>
+    <button id="playMusic">🎵 Reproducir música</button>
 
 </div>
 
 <footer>Con mucho cariño ❤️</footer>
 
 <script>
-const bookElement = document.getElementById("book");
+let currentPage = 1;
+const totalPages = 2;
+const container = document.getElementById("pageContainer");
 
-/* 📖 LIBRO PREMIUM */
-const pageFlip = new PageFlip(bookElement, {
-    width:  isMobile ? window.innerWidth * 0.88 : 340,
-    height: isMobile ? window.innerHeight * 0.65 : 480,
-    size: "fixed",
-    showCover: true,
-    usePortrait: true,        // ✅ Esto es lo que necesitas: una página a la vez
-    mobileScrollSupport: true,
-    useMouseEvents: true,
-    flippingTime: 1000,
-    maxShadowOpacity: 0.5
-});
+function updateUI() {
+    document.getElementById("prev").disabled = (currentPage === 1);
+    document.getElementById("next").disabled = (currentPage === totalPages);
+    document.getElementById("dot1").classList.toggle("active", currentPage === 1);
+    document.getElementById("dot2").classList.toggle("active", currentPage === 2);
+    container.classList.toggle("show-page2", currentPage === 2);
+}
 
-/* carga páginas */
-pageFlip.loadFromHTML(document.querySelectorAll(".page"));
+function nextPage() {
+    if (currentPage < totalPages) { currentPage++; updateUI(); }
+}
+function prevPage() {
+    if (currentPage > 1) { currentPage--; updateUI(); }
+}
+function goToPage(n) {
+    currentPage = n; updateUI();
+}
 
-/* botones */
-document.getElementById("next").addEventListener("click", () => pageFlip.flipNext());
-document.getElementById("prev").addEventListener("click", () => pageFlip.flipPrev());
-
-/* 🎵 música */
+/* Música */
 const music = document.getElementById("music");
-document.getElementById("playMusic").addEventListener("click", async () => {
-    try {
-        await music.play();
-        document.getElementById("playMusic").style.display = "none";
-    } catch (e) {
-        console.log(e);
+const playBtn = document.getElementById("playMusic");
+music.load();
+playBtn.addEventListener("click", () => {
+    if (music.paused) {
+        music.play()
+            .then(() => { playBtn.textContent = "⏸ Pausar música"; })
+            .catch(() => { playBtn.textContent = "❌ Sin audio"; });
+    } else {
+        music.pause();
+        playBtn.textContent = "🎵 Reproducir música";
     }
 });
 
-/* ✨ apertura animada tipo revista */
+/* Animación de bienvenida: muestra página 2 brevemente y vuelve */
 window.addEventListener("load", () => {
     setTimeout(() => {
-        pageFlip.flipNext();
-        setTimeout(() => pageFlip.flipPrev(), 1200); // de 600 → 1200ms
-    }, 1200); // de 800 → 1200ms
+        currentPage = 2; updateUI();
+        setTimeout(() => { currentPage = 1; updateUI(); }, 1200);
+    }, 1000);
 });
 </script>
-
 </body>
 </html>
