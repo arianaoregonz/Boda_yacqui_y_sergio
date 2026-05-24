@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Boda Yacqui & Sergio</title>
 
 <link rel="stylesheet" href="style.css">
@@ -12,7 +13,7 @@
 
 <body>
 
-<!-- 🌿 FLORES PREMIUM (PNG realistas) -->
+<!-- 🌿 FLORES PREMIUM -->
 <img src="flores-top-left.jpg" class="floral tl">
 <img src="flores-top-right.png" class="floral tr">
 <img src="flores-bottom-left.png" class="floral bl">
@@ -25,13 +26,17 @@
 
 <div class="container">
 
+  <!-- 📖 LIBRO -->
   <div id="book" class="book">
 
     <div class="page"><img src="1.png"></div>
     <div class="page"><img src="2.png"></div>
+    <div class="page"><img src="3.png"></div>
+    <div class="page"><img src="4.png"></div>
 
   </div>
 
+  <!-- CONTROLES -->
   <div class="controls">
     <button id="prev">⬅</button>
     <button id="next">➡</button>
@@ -42,41 +47,55 @@
     <a href="https://forms.gle/F862XggiaJDcb5yc9" target="_blank">formulario</a>
   </div>
 
-<audio id="music" loop src="musica.m4a"></audio>
+  <audio id="music" loop>
+    <source src="musica.m4a" type="audio/mp4">
+  </audio>
+
+  <button id="playMusic">🎵 Play</button>
 
 </div>
 
 <footer>Con mucho cariño ❤️</footer>
 
 <script>
-const flipSound = document.getElementById("flipSound");
+const bookElement = document.getElementById("book");
 
-const pageFlip = new PageFlip(document.getElementById("book"), {
-  width: 440,
-  height: 620,
-  size: "stretch",
-  showCover: true,
-  useMouseEvents: true,
-  swipeDistance: 30,
-  flippingTime: 900
+/* 📖 LIBRO PREMIUM */
+const pageFlip = new PageFlip(bookElement, {
+    width: 340,
+    height: 480,
+    size: "fixed",
+    showCover: true,
+    mobileScrollSupport: true,
+    useMouseEvents: true,
+    flippingTime: 1000,
+    maxShadowOpacity: 0.5
 });
 
+/* carga páginas */
 pageFlip.loadFromHTML(document.querySelectorAll(".page"));
 
-// sonido al pasar página
-pageFlip.on("flip", () => {
-  flipSound.currentTime = 0;
-  flipSound.play();
-});
-
+/* botones */
 document.getElementById("next").addEventListener("click", () => pageFlip.flipNext());
 document.getElementById("prev").addEventListener("click", () => pageFlip.flipPrev());
 
-// música
+/* 🎵 música */
 const music = document.getElementById("music");
-document.getElementById("playMusic").addEventListener("click", () => {
-  music.play();
-  document.getElementById("playMusic").style.display = "none";
+document.getElementById("playMusic").addEventListener("click", async () => {
+    try {
+        await music.play();
+        document.getElementById("playMusic").style.display = "none";
+    } catch (e) {
+        console.log(e);
+    }
+});
+
+/* ✨ apertura animada tipo revista */
+window.addEventListener("load", () => {
+    setTimeout(() => {
+        pageFlip.flipNext();
+        setTimeout(() => pageFlip.flipPrev(), 600);
+    }, 800);
 });
 </script>
 
