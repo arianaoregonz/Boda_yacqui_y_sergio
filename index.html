@@ -1,139 +1,56 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <title>Boda Yacqui & Sergio</title>
 
-  <style>
-    *{
-      margin:0;
-      padding:0;
-      box-sizing:border-box;
-    }
-
-    body{
-      font-family: 'Georgia', serif;
-      background:#f7f2eb;
-      color:#4a3b2f;
-      display:flex;
-      flex-direction:column;
-      align-items:center;
-      min-height:100vh;
-    }
-
-    header{
-      width:100%;
-      padding:40px 20px 20px;
-      text-align:center;
-      background:#efe3d5;
-      box-shadow:0 2px 10px rgba(0,0,0,0.08);
-    }
-
-    h1{
-      font-size:3rem;
-      margin-bottom:10px;
-    }
-
-    p{
-      font-size:1.1rem;
-    }
-
-    .container{
-      width:90%;
-      max-width:1000px;
-      margin:40px auto;
-      text-align:center;
-    }
-
-    iframe.pdf{
-      width:100%;
-      height:80vh;
-      border:none;
-      border-radius:18px;
-      box-shadow:0 5px 20px rgba(0,0,0,0.15);
-      background:white;
-    }
-
-    .formulario{
-      margin-top:30px;
-      font-size:1.4rem;
-    }
-
-    .formulario a{
-      color:#9b6b43;
-      text-decoration:none;
-      font-weight:bold;
-      border-bottom:2px solid #9b6b43;
-      transition:0.3s;
-    }
-
-    .formulario a:hover{
-      color:#6e4b2f;
-      border-color:#6e4b2f;
-    }
-
-    .music-note{
-      margin-top:20px;
-      font-size:0.95rem;
-      opacity:0.7;
-    }
-
-    footer{
-      margin:40px 0 20px;
-      font-size:0.9rem;
-      opacity:0.7;
-    }
-
-  </style>
+  <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
   <header>
     <h1>Yacqui & Sergio</h1>
-    <p>¡Nos casamos! 💍</p>
+    <p>03 · Octubre · 2026</p>
   </header>
 
   <div class="container">
 
-    <!-- PDF -->
-    <iframe 
-      class="pdf"
-      src="Boda Yacqui y Sergio.pdf">
-    </iframe>
+    <iframe class="pdf" src="boda.pdf"></iframe>
 
-    <!-- Formulario -->
     <div class="formulario">
       Confirma tu asistencia en el siguiente
       <a href="https://forms.gle/F862XggiaJDcb5yc9" target="_blank">
         formulario
       </a>
     </div>
-    
+
+    <audio id="music" loop>
+      <source src="musica.m4a" type="audio/mp4">
+    </audio>
+
+    <button id="playMusic">
+      🎵 Entrar con música
+    </button>
+
   </div>
-
-<audio id="music" loop>
-  <source src="musica.m4a" type="audio/mp4">
-</audio>
-
-<button id="playMusic">
-  🎵 Say yes!
-</button>
-
-<script>
-  const button = document.getElementById("playMusic");
-  const music = document.getElementById("music");
-
-  button.addEventListener("click", () => {
-    music.play();
-    button.style.display = "none";
-  });
-</script>
 
   <footer>
     Con mucho cariño ❤️
   </footer>
+
+  <script>
+    const button = document.getElementById("playMusic");
+    const music = document.getElementById("music");
+
+    button.addEventListener("click", () => {
+      music.play();
+      button.style.display = "none";
+    });
+  </script>
 
 </body>
 </html>
