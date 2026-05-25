@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tenemos algo que contarte...</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=Great+Vibes&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    text-align: center;
+    color: #2bb8cc;
+    background: radial-gradient(circle at top, #fffdf8, #f3ece3);
+    overflow-x: hidden;
+    min-height: 100vh;
+}
+
+/* ══════════════════════════════════════
+   PANTALLA DEL SOBRE
+══════════════════════════════════════ */
+#envelope-screen {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(160deg, #f0ebe4, #e8e0d8, #f0ebe4);
+    cursor: pointer;
+    transition: opacity 1s ease, visibility 1s ease;
+    gap: 32px;
+}
+#envelope-screen.hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.env-pretitulo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.75rem;
+    letter-spacing: 6px;
+    text-transform: uppercase;
+    color: #a09080;
+    opacity: 0;
+    animation: fadeUp 1s ease 0.3s forwards;
+}
+
+.env-titulo {
+    font-family: 'Great Vibes', cursive;
+    font-size: 2.8rem;
+    color: #7a6a5a;
+    opacity: 0;
+    animation: fadeUp 1s ease 0.5s forwards;
+    margin-top: 8px;
+}
+
+/* Contenedor del sobre */
+.envelope-wrap {
+    position: relative;
+    width: min(380px, 88vw);
+    opacity: 0;
+    animation: fadeUp 1s ease 0.7s forwards;
+}
+
+/* SVG del sobre */
+#env-svg {
+    width: 100%;
+    filter: drop-shadow(0 20px 50px rgba(0,0,0,0.18));
+}
+
+/* Tapa se abre */
+#env-flap {
+    transform-origin: 50% 0%;
+    transition: transform 0.9s cubic-bezier(0.4,0,0.2,1);
+}
+.envelope-wrap.open #env-flap {
+    transform: rotateX(175deg);
+}
+
+/* Carta que sube */
+#env-letter {
+    transition: transform 0.8s cubic-bezier(0.4,0,0.2,1) 0.4s,
+                opacity 0.6s ease 0.4s;
+    transform: translateY(0px);
+    opacity: 0;
+}
+.envelope-wrap.open #env-letter {
+    transform: translateY(-55px);
+    opacity: 1;
+}
+
+/* Sello de cera — no se mueve */
+#env-seal { pointer-events: none; }
+
+.env-hint {
+    font-size: 0.65rem;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: #a09080;
+    animation: pulse 2.5s ease 1.8s infinite;
+    opacity: 0;
+}
+.env-hint.show { animation: fadeUp 0.6s ease forwards, pulse 2.5s ease 0.7s infinite; }
+
+/* ══════════════════════════════════════
+   FLORES FIJAS
+══════════════════════════════════════ */
+.floral {
+    position: fixed;
+    width: 240px;
+    opacity: 0;
+    z-index: 2;
+    pointer-events: none;
+    transition: opacity 1s ease;
+}
+.floral.visible { opacity: 0.85; }
+.tl { top:-10px; left:-10px; animation: float 6s ease-in-out infinite; }
+.tr { top:-10px; right:-10px; transform:scaleX(-1); animation: floatFlip 6s ease-in-out infinite; }
+.bl { bottom:-10px; left:-10px; transform:scaleY(-1); animation: floatFlipY 6s ease-in-out infinite; }
+.br { bottom:-10px; right:-10px; transform:scale(-1); animation: floatFlipXY 6s ease-in-out infinite; }
+@keyframes float     { 0%,100%{transform:translateY(0);}          50%{transform:translateY(10px);} }
+@keyframes floatFlip { 0%,100%{transform:scaleX(-1) translateY(0);} 50%{transform:scaleX(-1) translateY(10px);} }
+@keyframes floatFlipY{ 0%,100%{transform:scaleY(-1) translateY(0);} 50%{transform:scaleY(-1) translateY(10px);} }
+@keyframes floatFlipXY{0%,100%{transform:scale(-1) translateY(0);}  50%{transform:scale(-1) translateY(10px);} }
+
+/* ══════════════════════════════════════
+   CONTENIDO PRINCIPAL
+══════════════════════════════════════ */
+#main-content { opacity:0; transition:opacity 1s ease; }
+#main-content.visible { opacity:1; }
+
+header { padding:40px 20px 8px; position:relative; z-index:2; }
+header h1 {
+    font-family: 'Great Vibes', cursive;
+    font-size: 3.2rem;
+    font-weight: normal;
+    color: #42D7EB;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    z-index: 2;
+    padding-bottom: 60px;
+}
+
+/* ══ PÁGINAS ══ */
+.book-wrapper { position:relative; width:340px; margin:20px auto 0; }
+.page-container { position:relative; width:340px; }
+
+.page-1 {
+    position: relative;
+    width: 100%;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 24px 64px rgba(66,215,235,0.18);
+    border: 1px solid rgba(66,215,235,0.2);
+    backface-visibility: hidden;
+    transition: transform 0.7s cubic-bezier(0.645,0.045,0.355,1), opacity 0.7s ease;
+    transform: rotateY(0deg);
+    opacity: 1;
+    z-index: 2;
+}
+.page-2 {
+    position: absolute;
+    top:0; left:0;
+    width: 100%;
+    height: 100%;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 24px 64px rgba(66,215,235,0.18);
+    border: 1px solid rgba(66,215,235,0.2);
+    backface-visibility: hidden;
+    transition: transform 0.7s cubic-bezier(0.645,0.045,0.355,1), opacity 0.7s ease;
+    transform: rotateY(180deg);
+    opacity: 0;
+    z-index: 1;
+}
+.page-1 img, .page-2 img { width:100%; height:auto; display:block; }
+.show-page2 .page-1 { transform:rotateY(-180deg); opacity:0; z-index:1; }
+.show-page2 .page-2 { transform:rotateY(0deg);    opacity:1; z-index:2; }
+
+.page-indicator { display:flex; gap:8px; justify-content:center; margin:18px 0 8px; }
+.dot {
+    width:7px; height:7px; border-radius:50%;
+    background:rgba(66,215,235,0.2);
+    transition:background 0.3s, transform 0.3s;
+    cursor:pointer;
+}
+.dot.active { background:#42D7EB; transform:scale(1.35); }
+
+.controls { display:flex; gap:12px; margin:10px 0 0; }
+.controls button {
+    padding:11px 26px;
+    border:none;
+    border-radius:50px;
+    background:linear-gradient(135deg,#A7FCEC,#42D7EB);
+    color:white;
+    cursor:pointer;
+    font-family:'Cormorant Garamond', serif;
+    font-size:1.1rem;
+    box-shadow:0 6px 18px rgba(66,215,235,0.3);
+    transition:transform 0.2s, opacity 0.2s, box-shadow 0.2s;
+}
+.controls button:hover { transform:scale(1.06); box-shadow:0 10px 28px rgba(66,215,235,0.4); }
+.controls button:disabled { opacity:0.2; cursor:default; transform:none; box-shadow:none; }
+
+/* ══ CUENTA ATRÁS ══ */
+.countdown-section {
+    margin: 40px auto 32px;
+    width: min(400px, 90vw);
+    background: rgba(255,255,255,0.72);
+    border: 1px solid rgba(66,215,235,0.18);
+    border-radius: 4px;
+    padding: 30px 24px 26px;
+    backdrop-filter: blur(6px);
+    position: relative;
+}
+.countdown-section::before,
+.countdown-section::after {
+    content: '';
+    position: absolute;
+    width: 80px; height: 65px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 65'%3E%3Cline x1='8' y1='58' x2='45' y2='18' stroke='%2342D7EB' stroke-width='0.7' opacity='0.35'/%3E%3Cline x1='20' y1='62' x2='50' y2='8' stroke='%2342D7EB' stroke-width='0.7' opacity='0.25'/%3E%3Cellipse cx='47' cy='16' rx='4.5' ry='2.8' fill='%2342D7EB' opacity='0.22' transform='rotate(-40 47 16)'/%3E%3Cellipse cx='32' cy='10' rx='3.5' ry='2.2' fill='%2342D7EB' opacity='0.18' transform='rotate(-20 32 10)'/%3E%3Cellipse cx='55' cy='28' rx='3.5' ry='2.2' fill='%2342D7EB' opacity='0.18' transform='rotate(-50 55 28)'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-size: contain;
+    pointer-events: none;
+}
+.countdown-section::before { top:6px; left:6px; }
+.countdown-section::after  { bottom:6px; right:6px; transform:rotate(180deg); }
+
+.countdown-title {
+    font-family: 'Great Vibes', cursive;
+    font-size: 2.6rem;
+    color: #2bb8cc;
+    line-height: 1.1;
+    margin-bottom: 4px;
+}
+.countdown-sub {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.65rem;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: #42D7EB;
+    opacity: 0.55;
+    margin-bottom: 26px;
+}
+.countdown-bloques {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.bloque {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0 20px;
+}
+.bloque + .bloque { border-left: 1px solid rgba(66,215,235,0.3); }
+.bloque span {
+    font-family: 'Playfair Display', serif;
+    font-size: 3rem;
+    font-weight: 400;
+    color: #2bb8cc;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 1px;
+}
+.bloque small {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.58rem;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: #42D7EB;
+    opacity: 0.5;
+    margin-top: 8px;
+}
+
+/* ══ FORMULARIO ══ */
+.formulario {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.25rem;
+    color: #2bb8cc;
+    margin-top: 32px;
+}
+.formulario a {
+    color: #2bb8cc;
+    border-bottom: 1.5px solid #2bb8cc;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+#musicNote {
+    margin-top:14px; font-size:1.1rem; opacity:0;
+    animation: fadeNote 2s ease 2s forwards;
+}
+@keyframes fadeNote { 0%{opacity:0;transform:translateY(4px);} 50%{opacity:1;} 100%{opacity:0.4;} }
+
+footer {
+    margin: 40px 0 20px;
+    color: #7a6656;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1rem;
+    font-style: italic;
+    position: relative;
+    z-index: 2;
+}
+
+@keyframes fadeUp { from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:translateY(0);} }
+@keyframes pulse  { 0%,100%{opacity:0.35;} 50%{opacity:1;} }
+
+@media (max-width:600px) {
+    .floral { width:130px; }
+    .book-wrapper,.page-container { width:88vw; }
+    .bloque span { font-size:2.2rem; }
+    .bloque { padding:0 14px; }
+    .countdown-title { font-size:2rem; }
+    header h1 { font-size:2.4rem; }
+    .env-titulo { font-size:2.2rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- ══ SOBRE ══ -->
+<div id="envelope-screen" onclick="abrirSobre()">
+
+    <div style="text-align:center;">
+        <p class="env-pretitulo">Una invitación especial para ti</p>
+        <p class="env-titulo">Yacqui &amp; Sergio</p>
+    </div>
+
+    <div class="envelope-wrap" id="envelopeWrap">
+        <svg id="env-svg" viewBox="0 0 380 260" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+                <!-- Textura lino -->
+                <pattern id="lino" x="0" y="0" width="4" height="4" patternUnits="userSpaceOnUse">
+                    <line x1="0" y1="0" x2="4" y2="4" stroke="#c8bfb0" stroke-width="0.3" opacity="0.4"/>
+                    <line x1="4" y1="0" x2="0" y2="4" stroke="#c8bfb0" stroke-width="0.3" opacity="0.4"/>
+                </pattern>
+                <!-- Gradiente sobre -->
+                <linearGradient id="sobreGrad" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%"   stop-color="#e8e0d5"/>
+                    <stop offset="100%" stop-color="#d8cfc4"/>
+                </linearGradient>
+                <!-- Gradiente sello -->
+                <radialGradient id="selloGrad" cx="50%" cy="40%" r="50%">
+                    <stop offset="0%"   stop-color="#c49a60"/>
+                    <stop offset="100%" stop-color="#8b6030"/>
+                </radialGradient>
+                <radialGradient id="selloInner" cx="50%" cy="35%" r="50%">
+                    <stop offset="0%"   stop-color="#d4aa70"/>
+                    <stop offset="100%" stop-color="#9a6835"/>
+                </radialGradient>
+            </defs>
+
+            <!-- Carta interior (sube al abrir) -->
+            <g id="env-letter">
+                <rect x="70" y="70" width="240" height="150" rx="3"
+                      fill="white" stroke="#ddd5c8" stroke-width="1"/>
+                <line x1="95" y1="105" x2="285" y2="105" stroke="#e8e0d8" stroke-width="1"/>
+                <line x1="95" y1="120" x2="285" y2="120" stroke="#e8e0d8" stroke-width="1"/>
+                <line x1="95" y1="135" x2="250" y2="135" stroke="#e8e0d8" stroke-width="1"/>
+                <text x="190" y="92" text-anchor="middle"
+                      font-family="'Great Vibes', cursive" font-size="16"
+                      fill="#42D7EB" opacity="0.7">Yacqui &amp; Sergio</text>
+            </g>
+
+            <!-- Cuerpo del sobre -->
+            <rect x="10" y="90" width="360" height="160" rx="6"
+                  fill="url(#sobreGrad)" stroke="#c8bfb0" stroke-width="1"/>
+            <rect x="10" y="90" width="360" height="160" rx="6"
+                  fill="url(#lino)" opacity="0.6"/>
+
+            <!-- Triángulo izquierdo interior -->
+            <polygon points="10,90 10,250 130,170"
+                     fill="#ddd5c8" stroke="#c8bfb0" stroke-width="0.8"/>
+            <!-- Triángulo derecho interior -->
+            <polygon points="370,90 370,250 250,170"
+                     fill="#d8d0c5" stroke="#c8bfb0" stroke-width="0.8"/>
+            <!-- Triángulo inferior -->
+            <polygon points="10,250 190,165 370,250"
+                     fill="#d0c8bc" stroke="#c8bfb0" stroke-width="0.8"/>
+
+            <!-- TAPA (se abre) -->
+            <g id="env-flap">
+                <polygon points="10,90 190,188 370,90"
+                         fill="#e0d8cc" stroke="#c8bfb0" stroke-width="1"/>
+                <rect x="10" y="90" width="360" height="10" rx="0"
+                      fill="url(#lino)" opacity="0.5"/>
+            </g>
+
+            <!-- SELLO DE CERA -->
+            <g id="env-seal">
+                <!-- Sombra -->
+                <ellipse cx="191" cy="174" rx="30" ry="8" fill="rgba(0,0,0,0.12)"/>
+                <!-- Cera -->
+                <circle cx="190" cy="165" r="28" fill="url(#selloGrad)"/>
+                <circle cx="190" cy="165" r="23" fill="url(#selloInner)" opacity="0.7"/>
+                <!-- Borde decorativo -->
+                <circle cx="190" cy="165" r="26" fill="none" stroke="#a07840" stroke-width="1" opacity="0.6"/>
+                <!-- Texto sello -->
+                <text x="190" y="160" text-anchor="middle"
+                      font-family="'Great Vibes', cursive" font-size="13"
+                      fill="#f5e8d0" opacity="0.95">Y&amp;S</text>
+                <text x="190" y="173" text-anchor="middle"
+                      font-family="Georgia, serif" font-size="6"
+                      letter-spacing="1" fill="#f5e8d0" opacity="0.7">03 · 10 · 26</text>
+            </g>
+
+        </svg>
+    </div>
+
+    <p class="env-hint show">✦ &nbsp; toca para abrir &nbsp; ✦</p>
+
+</div>
+
+<!-- ══ FLORES ══ -->
+<img src="flores-top-left.jpg"    class="floral tl">
+<img src="flores-top-right.png"   class="floral tr">
+<img src="flores-bottom-left.png" class="floral bl">
+<img src="flores-bottom-right.png" class="floral br">
+
+<!-- ══ CONTENIDO PRINCIPAL ══ -->
+<div id="main-content">
+
+    <header>
+        <h1>Tenemos algo que contarte...</h1>
+    </header>
+
+    <div class="container">
+
+        <div class="book-wrapper">
+            <div class="page-container" id="pageContainer">
+                <div class="page-1">
+                    <img src="1.png" alt="Invitación - Página 1">
+                </div>
+                <div class="page-2">
+                    <img src="2.png" alt="Invitación - Página 2">
+                </div>
+            </div>
+        </div>
+
+        <div class="page-indicator">
+            <div class="dot active" id="dot1" onclick="goToPage(1)"></div>
+            <div class="dot"        id="dot2" onclick="goToPage(2)"></div>
+        </div>
+
+        <div class="controls">
+            <button id="prev" onclick="prevPage()" disabled>⬅</button>
+            <button id="next" onclick="nextPage()">➡</button>
+        </div>
+
+        <!-- CUENTA ATRÁS -->
+        <div class="countdown-section">
+            <p class="countdown-title">Cuenta regresiva</p>
+            <p class="countdown-sub">para nuestra boda</p>
+            <div class="countdown-bloques">
+                <div class="bloque"><span id="dias">00</span><small>días</small></div>
+                <div class="bloque"><span id="horas">00</span><small>horas</small></div>
+                <div class="bloque"><span id="minutos">00</span><small>min</small></div>
+                <div class="bloque"><span id="segundos">00</span><small>seg</small></div>
+            </div>
+        </div>
+
+        <div class="formulario">
+            Confirma tu asistencia en el
+            <a href="https://forms.gle/F862XggiaJDcb5yc9" target="_blank">formulario</a>
+        </div>
+
+        <div id="musicNote">🎵</div>
+
+        <audio id="music" loop autoplay muted>
+            <source src="musica.mp3" type="audio/mpeg">
+        </audio>
+
+    </div>
+
+    <footer>Con mucho cariño ❤️</footer>
+</div>
+
+<script>
+/* ══ SOBRE ══ */
+let sobreabierto = false;
+function abrirSobre() {
+    if (sobreabierto) return;
+    sobreabierto = true;
+    document.getElementById("envelopeWrap").classList.add("open");
+
+    setTimeout(() => {
+        document.getElementById("envelope-screen").classList.add("hidden");
+        document.getElementById("main-content").classList.add("visible");
+        document.querySelectorAll(".floral").forEach(f => f.classList.add("visible"));
+        setTimeout(() => {
+            currentPage = 2; updateUI();
+            setTimeout(() => { currentPage = 1; updateUI(); }, 1200);
+        }, 500);
+    }, 1500);
+}
+
+/* Añadir clase hidden al CSS dinámicamente */
+const style = document.createElement('style');
+style.textContent = '#envelope-screen.hidden{opacity:0;visibility:hidden;pointer-events:none;}';
+document.head.appendChild(style);
+
+/* ══ PÁGINAS ══ */
+let currentPage = 1;
+const totalPages = 2;
+const container = document.getElementById("pageContainer");
+
+function updateUI() {
+    document.getElementById("prev").disabled = (currentPage === 1);
+    document.getElementById("next").disabled = (currentPage === totalPages);
+    document.getElementById("dot1").classList.toggle("active", currentPage === 1);
+    document.getElementById("dot2").classList.toggle("active", currentPage === 2);
+    container.classList.toggle("show-page2", currentPage === 2);
+}
+function nextPage() { if (currentPage < totalPages) { currentPage++; updateUI(); } }
+function prevPage() { if (currentPage > 1) { currentPage--; updateUI(); } }
+function goToPage(n) { currentPage = n; updateUI(); }
+
+/* ══ MÚSICA ══ */
+const music = document.getElementById("music");
+music.load();
+document.addEventListener("click", () => {
+    if (music.muted) { music.muted = false; music.play().catch(()=>{}); }
+}, { once: true });
+
+/* ══ CUENTA ATRÁS ══ */
+function actualizarContador() {
+    const boda = new Date("2026-10-03T13:00:00");
+    const diff  = boda - new Date();
+    if (diff <= 0) {
+        document.querySelector(".countdown-section").innerHTML =
+            '<p class="countdown-title">¡Hoy es el gran día!</p>';
+        return;
+    }
+    const d = Math.floor(diff / 864e5);
+    const h = Math.floor((diff % 864e5) / 36e5);
+    const m = Math.floor((diff % 36e5)  / 6e4);
+    const s = Math.floor((diff % 6e4)   / 1e3);
+    document.getElementById("dias").textContent     = String(d).padStart(2,"0");
+    document.getElementById("horas").textContent    = String(h).padStart(2,"0");
+    document.getElementById("minutos").textContent  = String(m).padStart(2,"0");
+    document.getElementById("segundos").textContent = String(s).padStart(2,"0");
+}
+actualizarContador();
+setInterval(actualizarContador, 1000);
+</script>
+</body>
+</html>
+
+OK
+Listo
