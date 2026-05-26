@@ -228,6 +228,92 @@ backdrop-filter: blur(6px);
     50%{
         transform:translateY(-10px);
     }
+/* ══════════════════════════════════════
+   SOBRE REALISTA PREMIUM (CORREGIDO)
+══════════════════════════════════════ */
+
+.real-envelope {
+    position: relative;
+    width: min(430px, 92vw);
+    aspect-ratio: 1.4 / 1;
+    perspective: 1800px;
+    animation: floatingEnvelope 6s ease-in-out infinite;
+    filter: drop-shadow(0 30px 60px rgba(0,0,0,0.18));
+}
+
+/* Propiedades compartidas */
+.env-base,
+.env-letter,
+.env-flap,
+.env-seal {
+    position: absolute;
+    user-select: none;
+    pointer-events: none;
+}
+
+/* Carta: Centrada y detrás del frontal del sobre */
+.env-letter {
+    bottom: 5%;
+    left: 5%;
+    width: 90%;
+    height: auto;
+    z-index: 1; /* Nivel 1: El más profundo */
+    transform: translateY(35px) scale(0.96);
+    transition: transform 1.5s cubic-bezier(.22,1,.36,1), opacity 1s ease;
+    filter: drop-shadow(0 10px 25px rgba(0,0,0,0.10));
+}
+
+/* Base (Bolsillo del sobre): En la parte inferior */
+.env-base {
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: auto;
+    z-index: 2; /* Nivel 2: Tapa la mitad de la carta */
+}
+
+/* Tapa: Anclada a la parte superior */
+.env-flap {
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: auto;
+    z-index: 3; /* Nivel 3: Sobre la base y la carta */
+    transform-origin: top center;
+    transition: transform 1.3s cubic-bezier(.22,1,.36,1);
+    backface-visibility: hidden;
+    transform-style: preserve-3d;
+}
+
+/* Sello: Centrado justo donde cierra la tapa */
+.env-seal {
+    top: 45%; /* Ajusta este % dependiendo de la altura de tu tapa */
+    left: 50%;
+    width: 25%; /* Tamaño ajustado para que no sea gigante */
+    z-index: 4; /* Nivel 4: Lo más alto */
+    transform: translate(-50%, -50%) scale(1);
+    transition: transform 0.5s ease, opacity 0.5s ease;
+}
+
+/* ══ Animaciones de Apertura ══ */
+
+.real-envelope.open .env-flap {
+    transform: rotateX(180deg);
+}
+
+.real-envelope.open .env-letter {
+    transform: translateY(-120px) scale(1); /* Sube la carta */
+}
+
+.real-envelope.open .env-seal {
+    transform: translate(-50%, -50%) scale(0.8);
+    opacity: 0; /* Desvanece el sello al abrir */
+}
+
+/* Movimiento suave */
+@keyframes floatingEnvelope {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
 }
 /* ══════════════════════════════════════
    FLORES FIJAS
