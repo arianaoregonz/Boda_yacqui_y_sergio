@@ -118,33 +118,18 @@ body {
 .floral {
     position: fixed;
     width: 240px;
-    opacity: 0;
-    z-index: 2;
+    opacity: 0.85;
+    z-index: 1;
     pointer-events: none;
-    transition: opacity 1s ease;
+    animation: float 6s ease-in-out infinite;
 }
-.floral.visible { opacity: 0.85; }
-
-.tl { top:0; left:0;   animation: floatTL 6s ease-in-out infinite; }
-.tr { top:0; right:0;  animation: floatTR 6s ease-in-out infinite; }
-.bl { bottom:0; left:0;  animation: floatBL 6s ease-in-out infinite; }
-.br { bottom:0; right:0; animation: floatBR 6s ease-in-out infinite; }
-
-@keyframes floatTL {
-    0%,100% { transform: translate(0,0); }
-    50%      { transform: translate(0,10px); }
-}
-@keyframes floatTR {
-    0%,100% { transform: scaleX(-1) translate(0,0); }
-    50%      { transform: scaleX(-1) translate(0,10px); }
-}
-@keyframes floatBL {
-    0%,100% { transform: scaleY(-1) translate(0,0); }
-    50%      { transform: scaleY(-1) translate(0,10px); }
-}
-@keyframes floatBR {
-    0%,100% { transform: scale(-1) translate(0,0); }
-    50%      { transform: scale(-1) translate(0,10px); }
+.tl { top:-10px; left:-10px; }
+.tr { top:-10px; right:-10px; transform:scaleX(-1); }
+.bl { bottom:-10px; left:-10px; transform:scaleY(-1); }
+.br { bottom:-10px; right:-10px; transform:scale(-1); }
+@keyframes float {
+    0%,100% { transform:translateY(0); }
+    50% { transform:translateY(10px); }
 }
 
 /* ══════════════════════════════════════
