@@ -31,7 +31,7 @@ body {
     background: radial-gradient(circle at top, #fffdf9 0%, #f7f1ea 40%, #efe7de 100%);
     cursor: pointer;
     transition: opacity 1s ease, visibility 1s ease;
-    gap: 28px;
+    gap: 8px;
 }
 #envelope-screen.hidden {
     opacity: 0;
@@ -70,11 +70,11 @@ body {
 
 /* Tapa — se abre hacia arriba */
 #env-flap {
-    transform-origin: 50% 0%;
+    transform-origin: 50% 35%;
     transition: transform 1s cubic-bezier(0.4,0,0.2,1);
 }
 .envelope-wrap.open #env-flap {
-    transform: rotateX(180deg);
+    transform: rotateX(145deg);
 }
 
 /* Carta — sube al abrirse */
