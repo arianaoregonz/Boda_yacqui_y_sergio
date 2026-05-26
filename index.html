@@ -28,25 +28,17 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background:
-    radial-gradient(
-    circle at top,
-    #fffdf9 0%,
-    #f7f1ea 40%,
-    #efe7de 100%
-    );
-
-backdrop-filter: blur(6px);
+    background: radial-gradient(circle at top, #fffdf9 0%, #f7f1ea 40%, #efe7de 100%);
     cursor: pointer;
     transition: opacity 1s ease, visibility 1s ease;
-    gap: 32px;
+    gap: 28px;
 }
 #envelope-screen.hidden {
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
 }
-
+ 
 .env-pretitulo {
     font-family: 'Cormorant Garamond', serif;
     font-size: 0.75rem;
@@ -56,69 +48,70 @@ backdrop-filter: blur(6px);
     opacity: 0;
     animation: fadeUp 1s ease 0.3s forwards;
 }
-
 .env-titulo {
     font-family: 'Great Vibes', cursive;
     font-size: 3.8rem;
-    font-weight: normal;
     color: #756657;
-    letter-spacing: 1px;
-
     opacity: 0;
     animation: fadeUp 1s ease 0.5s forwards;
-
-    margin-top: 8px;
+    margin-top: 4px;
 }
-
-/* Contenedor del sobre */
+ 
+/* ── Sobre SVG ── */
 .envelope-wrap {
     position: relative;
-    width: min(380px, 88vw);
+    width: min(400px, 90vw);
     opacity: 0;
     animation: fadeUp 1s ease 0.7s forwards;
+    animation-fill-mode: forwards;
+    filter: drop-shadow(0 24px 48px rgba(0,0,0,0.16));
 }
-
-/* SVG del sobre */
-#env-svg {
-    width: 100%;
-    filter: drop-shadow(0 20px 50px rgba(0,0,0,0.18));
-}
-
-/* Tapa se abre */
+#env-svg { width: 100%; overflow: visible; }
+ 
+/* Tapa — se abre hacia arriba */
 #env-flap {
     transform-origin: 50% 0%;
-    transition: transform 0.9s cubic-bezier(0.4,0,0.2,1);
+    transition: transform 1s cubic-bezier(0.4,0,0.2,1);
 }
 .envelope-wrap.open #env-flap {
-    transform: rotateX(175deg);
+    transform: rotateX(180deg);
 }
-
-/* Carta que sube */
+ 
+/* Carta — sube al abrirse */
 #env-letter {
-    transition: transform 0.8s cubic-bezier(0.4,0,0.2,1) 0.4s,
-                opacity 0.6s ease 0.4s;
-    transform: translateY(0px);
+    transition: transform 0.9s cubic-bezier(0.4,0,0.2,1) 0.35s,
+                opacity   0.7s ease 0.35s;
+    transform: translateY(0);
     opacity: 0;
 }
 .envelope-wrap.open #env-letter {
-    transform: translateY(-55px);
+    transform: translateY(-62px);
     opacity: 1;
 }
-
-/* Sello de cera — no se mueve */
+ 
+/* Sello — no se mueve */
 #env-seal { pointer-events: none; }
-
+ 
+/* Flotación suave del sobre */
+.envelope-wrap {
+    animation: fadeUp 1s ease 0.7s forwards, floatEnv 5s ease-in-out 1.8s infinite;
+}
+@keyframes floatEnv {
+    0%,100% { filter: drop-shadow(0 24px 48px rgba(0,0,0,0.16)) translateY(0); transform: translateY(0); }
+    50%      { transform: translateY(-8px); filter: drop-shadow(0 32px 56px rgba(0,0,0,0.12)); }
+}
+ 
 .env-hint {
     font-size: 0.65rem;
     letter-spacing: 5px;
     text-transform: uppercase;
     color: #a09080;
-    animation: pulse 2.5s ease 1.8s infinite;
     opacity: 0;
 }
-.env-hint.show { animation: fadeUp 0.6s ease forwards, pulse 2.5s ease 0.7s infinite; }
-
-
+.env-hint.show {
+    animation: fadeUp 0.8s ease 1.6s forwards, pulse 2.5s ease 2.6s infinite;
+}
+    
 /* ══════════════════════════════════════
    CONTENIDO PRINCIPAL
 ══════════════════════════════════════ */
