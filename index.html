@@ -350,7 +350,7 @@ footer {
                 </filter>
             </defs>
 
-            <!-- ── Cuerpo del sobre (ATRÁS) ── -->
+            <!-- ── Cuerpo del sobre — Base rectangular ── -->
             <g filter="url(#sombra)">
                 <!-- Base rectangular -->
                 <rect x="12" y="108" width="396" height="220" rx="8"
@@ -359,35 +359,40 @@ footer {
                 <rect x="12" y="108" width="396" height="200" rx="8"
                       fill="url(#lino)" opacity="0.4"/>
 
-                <!-- Triángulo interior izquierdo -->
-                <polygon points="12,108 12,328 148,218"
-                         fill="#e5dcd1" stroke="#d0c8bb" stroke-width="0.9"/>
-                <!-- Triángulo interior derecho -->
-                <polygon points="408,108 408,328 272,218"
-                         fill="#e0d6cb" stroke="#d0c8bb" stroke-width="0.9"/>
-                <!-- Triángulo inferior -->
-                <polygon points="12,328 210,218 408,328"
+                <!-- Triángulo inferior —> apunta al sello -->
+                <polygon points="12,328 210,215 408,328"
                          fill="#d8cec3" stroke="#d0c8bb" stroke-width="0.9"/>
             </g>
 
-            <!-- ── Tapa (se abre hacia arriba) ── -->
+            <!-- ── Tapa (se abre hacia arriba) — triángulo superior —> apunta al sello ── -->
             <g id="env-flap">
 
-                <polygon points="12,108 210,300 408,108"
+                <polygon points="12,108 210,215 408,108"
                         fill="url(#tapaGrad)"
                         stroke="#d0c8bb"
                         stroke-width="1.3"/>
 
-                <polygon points="12,108 210,300 408,108"
+                <polygon points="12,108 210,215 408,108"
                         fill="url(#lino)"
                         opacity="0.3"/>
 
-                <line x1="12" y1="108"
-                    x2="408" y2="108"
-                    stroke="#e5dcd1"
-                    stroke-width="1.1"
-                    opacity="0.8"/>
+            </g>
 
+            <!-- ── Carta interior (ENTRE TAPA Y TRIÁNGULOS LATERALES) ── -->
+            <g id="env-letter">
+                <rect x="88" y="55" width="244" height="220" rx="6"
+                      fill="white" stroke="#e8dfd4" stroke-width="1.5"
+                      filter="url(#sombra)"/>
+            </g>
+
+            <!-- ── Triángulos laterales (DELANTE DE LA CARTA) ── -->
+            <g>
+                <!-- Triángulo interior izquierdo —> apunta al sello -->
+                <polygon points="12,108 12,328 210,215"
+                         fill="#e5dcd1" stroke="#d0c8bb" stroke-width="0.9"/>
+                <!-- Triángulo interior derecho —> apunta al sello -->
+                <polygon points="408,108 408,328 210,215"
+                         fill="#e0d6cb" stroke="#d0c8bb" stroke-width="0.9"/>
             </g>
 
             <!-- ── Sello de cera ── -->
@@ -406,7 +411,7 @@ footer {
                 <circle cx="210" cy="215" r="28" fill="none"
                         stroke="#0699b2" stroke-width="0.8" opacity="0.4"/>
                 <!-- Iniciales centradas mejor -->
-                <text x="210" y="223" text-anchor="middle" dominant-baseline="middle"
+                <text x="210" y="215" text-anchor="middle" dominant-baseline="middle"
                       font-family="'Great Vibes', cursive" font-size="18"
                       fill="#f0ebe0" opacity="0.95" font-weight="400"
                       style="filter:drop-shadow(0 1.5px 2px rgba(0,0,0,0.4))">Y&amp;S</text>
