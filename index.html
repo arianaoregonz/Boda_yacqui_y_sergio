@@ -60,7 +60,7 @@ body {
 /* ── Sobre SVG ── */
 .envelope-wrap {
     position: relative;
-    width: min(400px, 90vw);
+    width: min(520px, 92vw);
     opacity: 0;
     animation: fadeUp 1s ease 0.7s forwards;
     animation-fill-mode: forwards;
@@ -204,7 +204,7 @@ header h1 {
 /* ══ CUENTA ATRÁS ══ */
 .countdown-section {
     margin: 40px auto 32px;
-    width: min(400px, 90vw);
+    width: min(560px, 92vw);
     background: rgba(255,255,255,0.72);
     border: 1px solid rgba(66,215,235,0.18);
     border-radius: 4px;
@@ -310,14 +310,14 @@ footer {
                     <stop offset="100%" stop-color="#d4cbc0"/>
                 </linearGradient>
                 <!-- Sello cera — azul -->
-                <radialGradient id="selloBase" cx="42%" cy="35%" r="58%">
-                    <stop offset="0%"   stop-color="#d4a55a"/>
-                    <stop offset="60%"  stop-color="#b07f32"/>
-                    <stop offset="100%" stop-color="#8a5f1a"/>
+                <radialGradient id="selloBase" cx="40%" cy="35%" r="60%">
+                    <stop offset="0%"   stop-color="#6fe8ff"/>
+                    <stop offset="55%"  stop-color="#0cc0df"/>
+                    <stop offset="100%" stop-color="#0798b1"/>
                 </radialGradient>
                 <radialGradient id="selloInner" cx="38%" cy="30%" r="55%">
-                    <stop offset="0%"   stop-color="#e8c070"/>
-                    <stop offset="100%" stop-color="#a07030"/>
+                    <stop offset="0%"   stop-color="#9ef2ff"/>
+                    <stop offset="100%" stop-color="#11b9d4"/>
                 </radialGradient>
                 <!-- Sombra suave -->
                 <filter id="sombra" x="-15%" y="-15%" width="130%" height="140%">
@@ -330,7 +330,7 @@ footer {
 
             <!-- ── Carta interior (aparece al abrir) ── -->
             <g id="env-letter">
-                <rect x="88" y="55" width="244" height="170" rx="4"
+                <rect x="88" y="55" width="244" height="220" rx="4"
                       fill="white" stroke="#ddd5c8" stroke-width="1.2"
                       filter="url(#sombra)"/>
                 <!-- Líneas de texto simuladas -->
@@ -344,48 +344,56 @@ footer {
             <!-- ── Cuerpo del sobre ── -->
             <g filter="url(#sombra)">
                 <!-- Base rectangular -->
-                <rect x="12" y="108" width="396" height="170" rx="8"
+                <rect x="12" y="108" width="396" height="220" rx="8"
                       fill="url(#sobGrad)" stroke="#c0b8aa" stroke-width="1"/>
                 <!-- Textura lino encima -->
-                <rect x="12" y="108" width="396" height="170" rx="8"
+                <rect x="12" y="108" width="396" height="200" rx="8"
                       fill="url(#lino)" opacity="0.55"/>
 
                 <!-- Triángulo interior izquierdo -->
-                <polygon points="12,108 12,278 148,193"
+                <polygon points="12,108 12,328 148,218"
                          fill="#d8d0c4" stroke="#c0b8aa" stroke-width="0.8"/>
                 <!-- Triángulo interior derecho -->
-                <polygon points="408,108 408,278 272,193"
+                <polygon points="408,108 408,328 272,218"
                          fill="#d2c9bc" stroke="#c0b8aa" stroke-width="0.8"/>
                 <!-- Triángulo inferior -->
-                <polygon points="12,278 210,192 408,278"
+                <polygon points="12,328 210,218 408,328"
                          fill="#cac2b5" stroke="#c0b8aa" stroke-width="0.8"/>
             </g>
 
             <!-- ── Tapa (se abre hacia arriba) ── -->
             <g id="env-flap">
-                <polygon points="12,108 210,192 408,108"
-                         fill="url(#tapaGrad)" stroke="#c0b8aa" stroke-width="1.2"/>
-                <!-- Textura lino en la tapa -->
-                <polygon points="12,108 210,212 408,108"
-                         fill="url(#lino)" opacity="0.45"/>
-                <!-- Doblez superior sutil -->
-                <line x1="12" y1="108" x2="408" y2="108"
-                      stroke="#c8c0b2" stroke-width="1" opacity="0.7"/>
+
+                <polygon points="12,108 210,300 408,108"
+                        fill="url(#tapaGrad)"
+                        stroke="#c0b8aa"
+                        stroke-width="1.2"/>
+
+                <polygon points="12,108 210,300 408,108"
+                        fill="url(#lino)"
+                        opacity="0.35"/>
+
+                <line x1="12" y1="108"
+                    x2="408" y2="108"
+                    stroke="#d8d0c5"
+                    stroke-width="1"
+                    opacity="0.7"/>
+
             </g>
 
             <!-- ── Sello de cera ── -->
             <g id="env-seal" filter="url(#sombraSello)">
                 <!-- Sombra del sello -->
-                <ellipse cx="212" cy="206" rx="35" ry="9"
+                <ellipse cx="212" cy="240" rx="35" ry="9"
                          fill="rgba(0,0,0,0.14)"/>
                 <!-- Cera exterior con relieve -->
-                <circle cx="210" cy="196" r="33" fill="url(#selloBase)"/>
+                <circle cx="210" cy="230" r="33" fill="url(#selloBase)"/>
                 <!-- Círculo interior brillante -->
-                <circle cx="210" cy="196" r="26" fill="url(#selloInner)" opacity="0.8"/>
+                <circle cx="210" cy="230" r="26" fill="url(#selloInner)" opacity="0.8"/>
                 <!-- Borde grabado -->
-                <circle cx="210" cy="196" r="30" fill="none"
-                        stroke="#40b1c8" stroke-width="1.2" opacity="0.5"/>
-                <circle cx="210" cy="196" r="27" fill="none"
+                <circle cx="210" cy="230" r="30" fill="none"
+                        stroke="#7aefff" stroke-width="1.2" opacity="0.5"/>
+                <circle cx="210" cy="230" r="27" fill="none"
                         stroke="#c00f0cd" stroke-width="0.6" opacity="0.35"/>
                 <!-- Iniciales -->
                 <text x="210" y="190" text-anchor="middle"
