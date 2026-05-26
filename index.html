@@ -61,6 +61,7 @@ body {
 .envelope-wrap {
     position: relative;
     width: min(520px, 92vw);
+    margin-top: -20px;
     opacity: 0;
     animation: fadeUp 1s ease 0.7s forwards;
     animation-fill-mode: forwards;
@@ -384,19 +385,19 @@ footer {
             <!-- ── Sello de cera ── -->
             <g id="env-seal" filter="url(#sombraSello)">
                 <!-- Sombra del sello -->
-                <ellipse cx="212" cy="240" rx="35" ry="9"
+                <ellipse cx="212" cy="225" rx="35" ry="9"
                          fill="rgba(0,0,0,0.14)"/>
                 <!-- Cera exterior con relieve -->
-                <circle cx="210" cy="230" r="33" fill="url(#selloBase)"/>
+                <circle cx="210" cy="215" r="33" fill="url(#selloBase)"/>
                 <!-- Círculo interior brillante -->
-                <circle cx="210" cy="230" r="26" fill="url(#selloInner)" opacity="0.8"/>
+                <circle cx="210" cy="215" r="26" fill="url(#selloInner)" opacity="0.8"/>
                 <!-- Borde grabado -->
-                <circle cx="210" cy="230" r="30" fill="none"
+                <circle cx="210" cy="215" r="30" fill="none"
                         stroke="#7aefff" stroke-width="1.2" opacity="0.5"/>
-                <circle cx="210" cy="230" r="27" fill="none"
+                <circle cx="210" cy="215" r="27" fill="none"
                         stroke="#c00f0cd" stroke-width="0.6" opacity="0.35"/>
                 <!-- Iniciales -->
-                <text x="210" y="190" text-anchor="middle"
+                <text x="210" y="235" text-anchor="middle"
                       font-family="'Great Vibes', cursive" font-size="15"
                       fill="#f8edd5" opacity="0.95"
                       style="filter:drop-shadow(0 1px 1px rgba(0,0,0,0.3))">Y&amp;S</text>
