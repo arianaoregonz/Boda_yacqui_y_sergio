@@ -38,7 +38,7 @@ body {
     visibility: hidden;
     pointer-events: none;
 }
- 
+
 .env-pretitulo {
     font-family: 'Cormorant Garamond', serif;
     font-size: 0.75rem;
@@ -56,7 +56,7 @@ body {
     animation: fadeUp 1s ease 0.5s forwards;
     margin-top: 4px;
 }
- 
+
 /* ── Sobre SVG ── */
 .envelope-wrap {
     position: relative;
@@ -67,7 +67,7 @@ body {
     filter: drop-shadow(0 24px 48px rgba(0,0,0,0.16));
 }
 #env-svg { width: 100%; overflow: visible; }
- 
+
 /* Tapa — se abre hacia arriba */
 #env-flap {
     transform-origin: 50% 0%;
@@ -76,7 +76,7 @@ body {
 .envelope-wrap.open #env-flap {
     transform: rotateX(180deg);
 }
- 
+
 /* Carta — sube al abrirse */
 #env-letter {
     transition: transform 0.9s cubic-bezier(0.4,0,0.2,1) 0.35s,
@@ -88,10 +88,10 @@ body {
     transform: translateY(-62px);
     opacity: 1;
 }
- 
+
 /* Sello — no se mueve */
 #env-seal { pointer-events: none; }
- 
+
 /* Flotación suave del sobre */
 .envelope-wrap {
     animation: fadeUp 1s ease 0.7s forwards, floatEnv 5s ease-in-out 1.8s infinite;
@@ -100,7 +100,7 @@ body {
     0%,100% { filter: drop-shadow(0 24px 48px rgba(0,0,0,0.16)) translateY(0); transform: translateY(0); }
     50%      { transform: translateY(-8px); filter: drop-shadow(0 32px 56px rgba(0,0,0,0.12)); }
 }
- 
+
 .env-hint {
     font-size: 0.65rem;
     letter-spacing: 5px;
@@ -111,7 +111,42 @@ body {
 .env-hint.show {
     animation: fadeUp 0.8s ease 1.6s forwards, pulse 2.5s ease 2.6s infinite;
 }
-    
+
+/* ══════════════════════════════════════
+   FLORES — keyframe propio por esquina
+══════════════════════════════════════ */
+.floral {
+    position: fixed;
+    width: 240px;
+    opacity: 0;
+    z-index: 2;
+    pointer-events: none;
+    transition: opacity 1s ease;
+}
+.floral.visible { opacity: 0.85; }
+
+.tl { top:0; left:0;   animation: floatTL 6s ease-in-out infinite; }
+.tr { top:0; right:0;  animation: floatTR 6s ease-in-out infinite; }
+.bl { bottom:0; left:0;  animation: floatBL 6s ease-in-out infinite; }
+.br { bottom:0; right:0; animation: floatBR 6s ease-in-out infinite; }
+
+@keyframes floatTL {
+    0%,100% { transform: translate(0,0); }
+    50%      { transform: translate(0,10px); }
+}
+@keyframes floatTR {
+    0%,100% { transform: scaleX(-1) translate(0,0); }
+    50%      { transform: scaleX(-1) translate(0,10px); }
+}
+@keyframes floatBL {
+    0%,100% { transform: scaleY(-1) translate(0,0); }
+    50%      { transform: scaleY(-1) translate(0,10px); }
+}
+@keyframes floatBR {
+    0%,100% { transform: scale(-1) translate(0,0); }
+    50%      { transform: scale(-1) translate(0,10px); }
+}
+
 /* ══════════════════════════════════════
    CONTENIDO PRINCIPAL
 ══════════════════════════════════════ */
@@ -140,32 +175,22 @@ header h1 {
 .page-container { position:relative; width:340px; }
 
 .page-1 {
-    position: relative;
-    width: 100%;
-    border-radius: 14px;
-    overflow: hidden;
+    position: relative; width: 100%;
+    border-radius: 14px; overflow: hidden;
     box-shadow: 0 24px 64px rgba(66,215,235,0.18);
     border: 1px solid rgba(66,215,235,0.2);
     backface-visibility: hidden;
     transition: transform 0.7s cubic-bezier(0.645,0.045,0.355,1), opacity 0.7s ease;
-    transform: rotateY(0deg);
-    opacity: 1;
-    z-index: 2;
+    transform: rotateY(0deg); opacity:1; z-index:2;
 }
 .page-2 {
-    position: absolute;
-    top:0; left:0;
-    width: 100%;
-    height: 100%;
-    border-radius: 14px;
-    overflow: hidden;
+    position: absolute; top:0; left:0; width:100%; height:100%;
+    border-radius: 14px; overflow: hidden;
     box-shadow: 0 24px 64px rgba(66,215,235,0.18);
     border: 1px solid rgba(66,215,235,0.2);
     backface-visibility: hidden;
     transition: transform 0.7s cubic-bezier(0.645,0.045,0.355,1), opacity 0.7s ease;
-    transform: rotateY(180deg);
-    opacity: 0;
-    z-index: 1;
+    transform: rotateY(180deg); opacity:0; z-index:1;
 }
 .page-1 img, .page-2 img { width:100%; height:auto; display:block; }
 .show-page2 .page-1 { transform:rotateY(-180deg); opacity:0; z-index:1; }
@@ -175,21 +200,16 @@ header h1 {
 .dot {
     width:7px; height:7px; border-radius:50%;
     background:rgba(66,215,235,0.2);
-    transition:background 0.3s, transform 0.3s;
-    cursor:pointer;
+    transition:background 0.3s, transform 0.3s; cursor:pointer;
 }
 .dot.active { background:#42D7EB; transform:scale(1.35); }
 
 .controls { display:flex; gap:12px; margin:10px 0 0; }
 .controls button {
-    padding:11px 26px;
-    border:none;
-    border-radius:50px;
+    padding:11px 26px; border:none; border-radius:50px;
     background:linear-gradient(135deg,#A7FCEC,#42D7EB);
-    color:white;
-    cursor:pointer;
-    font-family:'Cormorant Garamond', serif;
-    font-size:1.1rem;
+    color:white; cursor:pointer;
+    font-family:'Cormorant Garamond', serif; font-size:1.1rem;
     box-shadow:0 6px 18px rgba(66,215,235,0.3);
     transition:transform 0.2s, opacity 0.2s, box-shadow 0.2s;
 }
@@ -213,92 +233,55 @@ header h1 {
     position: absolute;
     width: 80px; height: 65px;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 65'%3E%3Cline x1='8' y1='58' x2='45' y2='18' stroke='%2342D7EB' stroke-width='0.7' opacity='0.35'/%3E%3Cline x1='20' y1='62' x2='50' y2='8' stroke='%2342D7EB' stroke-width='0.7' opacity='0.25'/%3E%3Cellipse cx='47' cy='16' rx='4.5' ry='2.8' fill='%2342D7EB' opacity='0.22' transform='rotate(-40 47 16)'/%3E%3Cellipse cx='32' cy='10' rx='3.5' ry='2.2' fill='%2342D7EB' opacity='0.18' transform='rotate(-20 32 10)'/%3E%3Cellipse cx='55' cy='28' rx='3.5' ry='2.2' fill='%2342D7EB' opacity='0.18' transform='rotate(-50 55 28)'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-size: contain;
-    pointer-events: none;
+    background-repeat: no-repeat; background-size: contain; pointer-events: none;
 }
 .countdown-section::before { top:6px; left:6px; }
 .countdown-section::after  { bottom:6px; right:6px; transform:rotate(180deg); }
 
 .countdown-title {
     font-family: 'Great Vibes', cursive;
-    font-size: 2.6rem;
-    color: #2bb8cc;
-    line-height: 1.1;
-    margin-bottom: 4px;
+    font-size: 2.6rem; color: #2bb8cc;
+    line-height: 1.1; margin-bottom: 4px;
 }
 .countdown-sub {
     font-family: 'Cormorant Garamond', serif;
-    font-size: 0.65rem;
-    letter-spacing: 5px;
-    text-transform: uppercase;
-    color: #42D7EB;
-    opacity: 0.55;
-    margin-bottom: 26px;
+    font-size: 0.65rem; letter-spacing: 5px;
+    text-transform: uppercase; color: #42D7EB;
+    opacity: 0.55; margin-bottom: 26px;
 }
-.countdown-bloques {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-.bloque {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 0 20px;
-}
+.countdown-bloques { display:flex; align-items:center; justify-content:center; }
+.bloque { display:flex; flex-direction:column; align-items:center; padding:0 20px; }
 .bloque + .bloque { border-left: 1px solid rgba(66,215,235,0.3); }
 .bloque span {
     font-family: 'Playfair Display', serif;
-    font-size: 3rem;
-    font-weight: 400;
-    color: #2bb8cc;
-    line-height: 1;
-    font-variant-numeric: tabular-nums;
-    letter-spacing: 1px;
+    font-size: 3rem; font-weight: 400; color: #2bb8cc;
+    line-height:1; font-variant-numeric:tabular-nums; letter-spacing:1px;
 }
 .bloque small {
     font-family: 'Cormorant Garamond', serif;
-    font-size: 0.58rem;
-    letter-spacing: 4px;
-    text-transform: uppercase;
-    color: #42D7EB;
-    opacity: 0.5;
-    margin-top: 8px;
+    font-size: 0.58rem; letter-spacing: 4px;
+    text-transform: uppercase; color: #42D7EB;
+    opacity: 0.5; margin-top: 8px;
 }
 
-/* ══ FORMULARIO ══ */
 .formulario {
     font-family: 'Cormorant Garamond', serif;
-    font-size: 1.25rem;
-    color: #2bb8cc;
-    margin-top: 32px;
+    font-size: 1.25rem; color: #2bb8cc; margin-top: 32px;
 }
 .formulario a {
-    color: #2bb8cc;
-    border-bottom: 1.5px solid #2bb8cc;
-    text-decoration: none;
-    font-weight: 500;
+    color: #2bb8cc; border-bottom: 1.5px solid #2bb8cc;
+    text-decoration: none; font-weight: 500;
 }
-
-#musicNote {
-    margin-top:14px; font-size:1.1rem; opacity:0;
-    animation: fadeNote 2s ease 2s forwards;
-}
-@keyframes fadeNote { 0%{opacity:0;transform:translateY(4px);} 50%{opacity:1;} 100%{opacity:0.4;} }
 
 footer {
-    margin: 40px 0 20px;
-    color: #7a6656;
+    margin: 40px 0 20px; color: #7a6656;
     font-family: 'Cormorant Garamond', serif;
-    font-size: 1rem;
-    font-style: italic;
-    position: relative;
-    z-index: 2;
+    font-size: 1rem; font-style: italic;
+    position: relative; z-index: 2;
 }
 
-@keyframes fadeUp { from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:translateY(0);} }
-@keyframes pulse  { 0%,100%{opacity:0.35;} 50%{opacity:1;} }
+@keyframes fadeUp  { from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:translateY(0);} }
+@keyframes pulse   { 0%,100%{opacity:0.35;} 50%{opacity:1;} }
 
 @media (max-width:600px) {
     .floral { width:130px; }
@@ -307,13 +290,14 @@ footer {
     .bloque { padding:0 14px; }
     .countdown-title { font-size:2rem; }
     header h1 { font-size:2.4rem; }
-    .env-titulo { font-size:2.2rem; }
+    .env-titulo { font-size:2.8rem; }
+    .envelope-wrap { width:92vw; }
 }
 </style>
 </head>
 <body>
 
-<!-- ══ SOBRE ══ -->
+<!-- ══ PANTALLA DEL SOBRE ══ -->
 <div id="envelope-screen" onclick="abrirSobre()">
 
     <div style="text-align:center;">
@@ -321,32 +305,119 @@ footer {
         <p class="env-titulo">¡Nos casamos!</p>
     </div>
 
-<div class="real-envelope" id="envelopeWrap">
+    <div class="envelope-wrap" id="envelopeWrap">
+        <svg id="env-svg" viewBox="0 0 420 290" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+                <!-- Textura lino cruzado -->
+                <pattern id="lino" x="0" y="0" width="5" height="5" patternUnits="userSpaceOnUse">
+                    <line x1="0" y1="0" x2="5" y2="5" stroke="#b8b0a2" stroke-width="0.35" opacity="0.5"/>
+                    <line x1="5" y1="0" x2="0" y2="5" stroke="#b8b0a2" stroke-width="0.35" opacity="0.5"/>
+                </pattern>
+                <!-- Degradado sobre — color lino/beige cálido -->
+                <linearGradient id="sobGrad" x1="0" y1="0" x2="0.3" y2="1">
+                    <stop offset="0%"   stop-color="#e6ddd2"/>
+                    <stop offset="50%"  stop-color="#d9d0c5"/>
+                    <stop offset="100%" stop-color="#cec4b8"/>
+                </linearGradient>
+                <!-- Degradado tapa -->
+                <linearGradient id="tapaGrad" x1="0" y1="0" x2="0.2" y2="1">
+                    <stop offset="0%"   stop-color="#ede5da"/>
+                    <stop offset="100%" stop-color="#d4cbc0"/>
+                </linearGradient>
+                <!-- Sello cera — dorado cálido -->
+                <radialGradient id="selloBase" cx="42%" cy="35%" r="58%">
+                    <stop offset="0%"   stop-color="#d4a55a"/>
+                    <stop offset="60%"  stop-color="#b07f32"/>
+                    <stop offset="100%" stop-color="#8a5f1a"/>
+                </radialGradient>
+                <radialGradient id="selloInner" cx="38%" cy="30%" r="55%">
+                    <stop offset="0%"   stop-color="#e8c070"/>
+                    <stop offset="100%" stop-color="#a07030"/>
+                </radialGradient>
+                <!-- Sombra suave -->
+                <filter id="sombra" x="-15%" y="-15%" width="130%" height="140%">
+                    <feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#00000028"/>
+                </filter>
+                <filter id="sombraSello" x="-20%" y="-20%" width="140%" height="150%">
+                    <feDropShadow dx="1" dy="4" stdDeviation="5" flood-color="#00000035"/>
+                </filter>
+            </defs>
 
-    <!-- Carta -->
-    <img src="carta.png"
-         class="env-letter"
-         alt="Carta">
+            <!-- ── Carta interior (aparece al abrir) ── -->
+            <g id="env-letter">
+                <rect x="88" y="55" width="244" height="170" rx="4"
+                      fill="white" stroke="#ddd5c8" stroke-width="1.2"
+                      filter="url(#sombra)"/>
+                <!-- Líneas de texto simuladas -->
+                <line x1="112" y1="95"  x2="310" y2="95"  stroke="#e0d8d0" stroke-width="1.2"/>
+                <line x1="112" y1="112" x2="310" y2="112" stroke="#e0d8d0" stroke-width="1.2"/>
+                <line x1="112" y1="129" x2="275" y2="129" stroke="#e0d8d0" stroke-width="1.2"/>
+                <line x1="112" y1="146" x2="295" y2="146" stroke="#e0d8d0" stroke-width="1.2"/>
+                <line x1="112" y1="163" x2="255" y2="163" stroke="#e0d8d0" stroke-width="1.2"/>
+            </g>
 
-    <!-- Base del sobre -->
-    <img src="sobre_base.png"
-         class="env-base"
-         alt="Sobre">
+            <!-- ── Cuerpo del sobre ── -->
+            <g filter="url(#sombra)">
+                <!-- Base rectangular -->
+                <rect x="12" y="108" width="396" height="170" rx="8"
+                      fill="url(#sobGrad)" stroke="#c0b8aa" stroke-width="1"/>
+                <!-- Textura lino encima -->
+                <rect x="12" y="108" width="396" height="170" rx="8"
+                      fill="url(#lino)" opacity="0.55"/>
 
-    <!-- Tapa -->
-    <img src="sobre_tapa.png"
-         class="env-flap"
-         alt="Tapa">
+                <!-- Triángulo interior izquierdo -->
+                <polygon points="12,108 12,278 148,193"
+                         fill="#d8d0c4" stroke="#c0b8aa" stroke-width="0.8"/>
+                <!-- Triángulo interior derecho -->
+                <polygon points="408,108 408,278 272,193"
+                         fill="#d2c9bc" stroke="#c0b8aa" stroke-width="0.8"/>
+                <!-- Triángulo inferior -->
+                <polygon points="12,278 210,192 408,278"
+                         fill="#cac2b5" stroke="#c0b8aa" stroke-width="0.8"/>
+            </g>
 
-    <!-- Sello -->
-    <img src="sello.png"
-         class="env-seal"
-         alt="Sello">
+            <!-- ── Tapa (se abre hacia arriba) ── -->
+            <g id="env-flap">
+                <polygon points="12,108 210,212 408,108"
+                         fill="url(#tapaGrad)" stroke="#c0b8aa" stroke-width="1.2"/>
+                <!-- Textura lino en la tapa -->
+                <polygon points="12,108 210,212 408,108"
+                         fill="url(#lino)" opacity="0.45"/>
+                <!-- Doblez superior sutil -->
+                <line x1="12" y1="108" x2="408" y2="108"
+                      stroke="#c8c0b2" stroke-width="1" opacity="0.7"/>
+            </g>
 
-</div>
+            <!-- ── Sello de cera ── -->
+            <g id="env-seal" filter="url(#sombraSello)">
+                <!-- Sombra del sello -->
+                <ellipse cx="212" cy="206" rx="35" ry="9"
+                         fill="rgba(0,0,0,0.14)"/>
+                <!-- Cera exterior con relieve -->
+                <circle cx="210" cy="196" r="33" fill="url(#selloBase)"/>
+                <!-- Círculo interior brillante -->
+                <circle cx="210" cy="196" r="26" fill="url(#selloInner)" opacity="0.8"/>
+                <!-- Borde grabado -->
+                <circle cx="210" cy="196" r="30" fill="none"
+                        stroke="#c89840" stroke-width="1.2" opacity="0.5"/>
+                <circle cx="210" cy="196" r="27" fill="none"
+                        stroke="#d4a850" stroke-width="0.6" opacity="0.35"/>
+                <!-- Iniciales -->
+                <text x="210" y="190" text-anchor="middle"
+                      font-family="'Great Vibes', cursive" font-size="15"
+                      fill="#f8edd5" opacity="0.95"
+                      style="filter:drop-shadow(0 1px 1px rgba(0,0,0,0.3))">Y&amp;S</text>
+                <!-- Fecha grabada -->
+                <text x="210" y="203" text-anchor="middle"
+                      font-family="'Cormorant Garamond', Georgia, serif"
+                      font-size="6.5" letter-spacing="1.2"
+                      fill="#f0ddb8" opacity="0.8">03 · 10 · 26</text>
+            </g>
+
+        </svg>
+    </div>
 
     <p class="env-hint show">✦ &nbsp; toca para abrir &nbsp; ✦</p>
-
 </div>
 
 <!-- ══ FLORES ══ -->
@@ -357,16 +428,12 @@ footer {
 
 <!-- ══ CONTENIDO PRINCIPAL ══ -->
 <div id="main-content">
-
     <div class="container">
+
         <div class="book-wrapper">
             <div class="page-container" id="pageContainer">
-                <div class="page-1">
-                    <img src="1.png" alt="Invitación - Página 1">
-                </div>
-                <div class="page-2">
-                    <img src="2.png" alt="Invitación - Página 2">
-                </div>
+                <div class="page-1"><img src="1.png" alt="Página 1"></div>
+                <div class="page-2"><img src="2.png" alt="Página 2"></div>
             </div>
         </div>
 
@@ -380,7 +447,6 @@ footer {
             <button id="next" onclick="nextPage()">➡</button>
         </div>
 
-        <!-- CUENTA ATRÁS -->
         <div class="countdown-section">
             <p class="countdown-title">Cuenta regresiva</p>
             <p class="countdown-sub">para nuestra boda</p>
@@ -411,22 +477,17 @@ function abrirSobre() {
     if (sobreabierto) return;
     sobreabierto = true;
     document.getElementById("envelopeWrap").classList.add("open");
-
     setTimeout(() => {
-        document.getElementById("envelope-screen").classList.add("hidden");
+        document.getElementById("envelope-screen").style.cssText =
+            "opacity:0;visibility:hidden;pointer-events:none;transition:opacity 1s ease,visibility 1s ease;";
         document.getElementById("main-content").classList.add("visible");
         document.querySelectorAll(".floral").forEach(f => f.classList.add("visible"));
         setTimeout(() => {
             currentPage = 2; updateUI();
             setTimeout(() => { currentPage = 1; updateUI(); }, 1200);
         }, 500);
-    }, 2200);
+    }, 2000);
 }
-
-/* Añadir clase hidden al CSS dinámicamente */
-const style = document.createElement('style');
-style.textContent = '#envelope-screen.hidden{opacity:0;visibility:hidden;pointer-events:none;}';
-document.head.appendChild(style);
 
 /* ══ PÁGINAS ══ */
 let currentPage = 1;
