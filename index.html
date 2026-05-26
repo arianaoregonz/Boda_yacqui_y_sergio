@@ -112,21 +112,20 @@ body {
 .floral {
     position: fixed;
     width: 240px;
-    opacity: 0;
-    z-index: 2;
+    opacity: 0.85;
+    z-index: 1;
     pointer-events: none;
-    transition: opacity 1s ease;
+    animation: float 6s ease-in-out infinite;
 }
-.floral.visible { opacity: 0.85; }
-.tl { top:-10px; left:-10px; animation: float 6s ease-in-out infinite; }
-.tr { top:-10px; right:-10px; animation: floatFlip 6s ease-in-out infinite; }
-.bl { bottom:-10px; left:-10px; animation: floatFlipY 6s ease-in-out infinite; }
-.br { bottom:-10px; right:-10px; animation: floatFlipXY 6s ease-in-out infinite; }
-@keyframes float     { 0%,100%{transform:translateY(0);}          50%{transform:translateY(10px);} }
-@keyframes floatFlip { 0%,100%{transform:scaleX(-1) translateY(0);} 50%{transform:scaleX(-1) translateY(10px);} }
-@keyframes floatFlipY{ 0%,100%{transform:scaleY(-1) translateY(0);} 50%{transform:scaleY(-1) translateY(10px);} }
-@keyframes floatFlipXY{0%,100%{transform:scale(-1) translateY(0);}  50%{transform:scale(-1) translateY(10px);} }
-
+.tl { top:-10px; left:-10px; }
+.tr { top:-10px; right:-10px; transform:scaleX(-1); }
+.bl { bottom:-10px; left:-10px; transform:scaleY(-1); }
+.br { bottom:-10px; right:-10px; transform:scale(-1); }
+@keyframes float {
+    0%,100% { transform:translateY(0); }
+    50% { transform:translateY(10px); }
+}
+    
 /* ══════════════════════════════════════
    CONTENIDO PRINCIPAL
 ══════════════════════════════════════ */
