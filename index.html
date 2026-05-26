@@ -347,8 +347,19 @@ footer {
                     <stop offset="100%" stop-color="#0bb5d0"/>
                 </radialGradient>
                 <!-- Patrón circular del sello -->
-                <pattern id="selloPattern" patternUnits="objectBoundingBox" width="1" height="1">
-                    <image href="sello.jpg" x="0" y="0" width="1" height="1" preserveAspectRatio="xMidYMid slice" />
+                <pattern id="selloPattern"
+                        patternUnits="userSpaceOnUse"
+                        x="172"
+                        y="175"
+                        width="76"
+                        height="76">
+
+                    <image href="sello.jpg"
+                        x="172"
+                        y="175"
+                        width="76"
+                        height="76"
+                        preserveAspectRatio="xMidYMid slice" />
                 </pattern>
                 <!-- Sombra suave -->
                 <filter id="sombra" x="-15%" y="-15%" width="130%" height="140%">
@@ -367,10 +378,6 @@ footer {
                 <!-- Textura lino encima -->
                 <rect x="12" y="108" width="396" height="200" rx="8"
                       fill="url(#lino)" opacity="0.4"/>
-
-                <!-- Triángulo inferior —> apunta al sello -->
-                <polygon points="12,328 210,215 408,328"
-                         fill="#d8cec3" stroke="#d0c8bb" stroke-width="0.9"/>
             </g>
 
             <!-- ── Tapa (se abre hacia arriba) — triángulo superior —> apunta al sello ── -->
@@ -402,6 +409,12 @@ footer {
                 <!-- Triángulo interior derecho —> apunta al sello -->
                 <polygon points="408,108 408,328 210,215"
                          fill="#e0d6cb" stroke="#d0c8bb" stroke-width="0.9"/>
+                <!-- Triángulo inferior (superpuesto a la carta) —> apunta al sello -->
+                <polygon points="12,328 210,215 408,328"
+                fill="#d8cec3"
+                stroke="#d0c8bb"
+                stroke-width="0.9"/>            
+            
             </g>
 
             <!-- ── Sello de cera ── -->
