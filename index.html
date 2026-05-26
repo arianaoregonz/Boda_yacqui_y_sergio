@@ -346,6 +346,10 @@ footer {
                     <stop offset="0%"   stop-color="#b8f8ff"/>
                     <stop offset="100%" stop-color="#0bb5d0"/>
                 </radialGradient>
+                <!-- Patrón circular del sello -->
+                <pattern id="selloPattern" patternUnits="objectBoundingBox" width="1" height="1">
+                    <image href="sello.jpeg" x="0" y="0" width="1" height="1" preserveAspectRatio="xMidYMid slice" />
+                </pattern>
                 <!-- Sombra suave -->
                 <filter id="sombra" x="-15%" y="-15%" width="130%" height="140%">
                     <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#00000025" flood-opacity="0.6"/>
@@ -402,7 +406,9 @@ footer {
 
             <!-- ── Sello de cera ── -->
             <g id="env-seal" filter="url(#sombraSello)">
-                <image x="172" y="175" width="76" height="76" href="sello.jpg" preserveAspectRatio="xMidYMid meet" />
+                <circle cx="210" cy="213" r="42" fill="#ffffff" opacity="0.16"/>
+                <circle cx="210" cy="213" r="38" fill="url(#selloPattern)" stroke="#f9f5ee" stroke-width="4"/>
+                <circle cx="210" cy="213" r="24" fill="none" stroke="#ffffff" stroke-width="1.5" opacity="0.75"/>
             </g>
         </svg>
     </div>
