@@ -28,7 +28,15 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(160deg, #f0ebe4, #e8e0d8, #f0ebe4);
+    background:
+    radial-gradient(
+    circle at top,
+    #fffdf9 0%,
+    #f7f1ea 40%,
+    #efe7de 100%
+    );
+
+backdrop-filter: blur(6px);
     cursor: pointer;
     transition: opacity 1s ease, visibility 1s ease;
     gap: 32px;
@@ -51,10 +59,14 @@ body {
 
 .env-titulo {
     font-family: 'Great Vibes', cursive;
-    font-size: 2.8rem;
-    color: #7a6a5a;
+    font-size: 3.8rem;
+    font-weight: normal;
+    color: #756657;
+    letter-spacing: 1px;
+
     opacity: 0;
     animation: fadeUp 1s ease 0.5s forwards;
+
     margin-top: 8px;
 }
 
@@ -106,6 +118,117 @@ body {
 }
 .env-hint.show { animation: fadeUp 0.6s ease forwards, pulse 2.5s ease 0.7s infinite; }
 
+/* ══════════════════════════════════════
+   SOBRE REALISTA PREMIUM
+══════════════════════════════════════ */
+
+.real-envelope{
+    position: relative;
+    width: min(430px, 92vw);
+    aspect-ratio: 1.4 / 1;
+    perspective: 1800px;
+
+    animation:
+        floatingEnvelope 6s ease-in-out infinite;
+
+    filter:
+        drop-shadow(0 30px 60px rgba(0,0,0,0.18));
+}
+
+/* Capas */
+
+.env-base,
+.env-letter,
+.env-flap,
+.env-seal{
+    position:absolute;
+    inset:0;
+    width:100%;
+    height:100%;
+    object-fit:contain;
+
+    user-select:none;
+    pointer-events:none;
+}
+
+/* Base */
+
+.env-base{
+    z-index:1;
+}
+
+/* Carta */
+
+.env-letter{
+    z-index:2;
+
+    transform:
+        translateY(35px)
+        scale(0.96);
+
+    transition:
+        transform 1.5s cubic-bezier(.22,1,.36,1),
+        opacity 1s ease;
+
+    filter:
+        drop-shadow(0 10px 25px rgba(0,0,0,0.10));
+}
+
+/* Tapa */
+
+.env-flap{
+    z-index:3;
+
+    transform-origin: top center;
+
+    transition:
+        transform 1.3s cubic-bezier(.22,1,.36,1);
+
+    backface-visibility:hidden;
+    transform-style:preserve-3d;
+}
+
+/* Sello */
+
+.env-seal{
+    z-index:4;
+
+    transform:scale(1);
+
+    transition:
+        transform 0.5s ease,
+        opacity 0.5s ease;
+}
+
+/* Apertura */
+
+.real-envelope.open .env-flap{
+    transform:
+        rotateX(185deg);
+}
+
+.real-envelope.open .env-letter{
+    transform:
+        translateY(-130px)
+        scale(1);
+}
+
+.real-envelope.open .env-seal{
+    transform:scale(0.9);
+    opacity:0;
+}
+
+/* Movimiento suave */
+
+@keyframes floatingEnvelope{
+    0%,100%{
+        transform:translateY(0px);
+    }
+
+    50%{
+        transform:translateY(-10px);
+    }
+}
 /* ══════════════════════════════════════
    FLORES FIJAS
 ══════════════════════════════════════ */
@@ -331,90 +454,33 @@ footer {
 <div id="envelope-screen" onclick="abrirSobre()">
 
     <div style="text-align:center;">
-        <p class="env-pretitulo">Una invitación especial para ti</p>
-        <p class="env-titulo">Yacqui &amp; Sergio</p>
+        <p class="env-pretitulo">Una invitación especial</p>
+        <p class="env-titulo">¡Nos casamos!</p>
     </div>
 
-    <div class="envelope-wrap" id="envelopeWrap">
-        <svg id="env-svg" viewBox="0 0 380 260" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-                <!-- Textura lino -->
-                <pattern id="lino" x="0" y="0" width="4" height="4" patternUnits="userSpaceOnUse">
-                    <line x1="0" y1="0" x2="4" y2="4" stroke="#c8bfb0" stroke-width="0.3" opacity="0.4"/>
-                    <line x1="4" y1="0" x2="0" y2="4" stroke="#c8bfb0" stroke-width="0.3" opacity="0.4"/>
-                </pattern>
-                <!-- Gradiente sobre -->
-                <linearGradient id="sobreGrad" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%"   stop-color="#e8e0d5"/>
-                    <stop offset="100%" stop-color="#d8cfc4"/>
-                </linearGradient>
-                <!-- Gradiente sello -->
-                <radialGradient id="selloGrad" cx="50%" cy="40%" r="50%">
-                    <stop offset="0%"   stop-color="#c49a60"/>
-                    <stop offset="100%" stop-color="#8b6030"/>
-                </radialGradient>
-                <radialGradient id="selloInner" cx="50%" cy="35%" r="50%">
-                    <stop offset="0%"   stop-color="#d4aa70"/>
-                    <stop offset="100%" stop-color="#9a6835"/>
-                </radialGradient>
-            </defs>
+<div class="real-envelope" id="envelopeWrap">
 
-            <!-- Carta interior (sube al abrir) -->
-            <g id="env-letter">
-                <rect x="70" y="70" width="240" height="150" rx="3"
-                      fill="white" stroke="#ddd5c8" stroke-width="1"/>
-                <line x1="95" y1="105" x2="285" y2="105" stroke="#e8e0d8" stroke-width="1"/>
-                <line x1="95" y1="120" x2="285" y2="120" stroke="#e8e0d8" stroke-width="1"/>
-                <line x1="95" y1="135" x2="250" y2="135" stroke="#e8e0d8" stroke-width="1"/>
-                <text x="190" y="92" text-anchor="middle"
-                      font-family="'Great Vibes', cursive" font-size="16"
-                      fill="#42D7EB" opacity="0.7">Yacqui &amp; Sergio</text>
-            </g>
+    <!-- Carta -->
+    <img src="carta.png"
+         class="env-letter"
+         alt="Carta">
 
-            <!-- Cuerpo del sobre -->
-            <rect x="10" y="90" width="360" height="160" rx="6"
-                  fill="url(#sobreGrad)" stroke="#c8bfb0" stroke-width="1"/>
-            <rect x="10" y="90" width="360" height="160" rx="6"
-                  fill="url(#lino)" opacity="0.6"/>
+    <!-- Base del sobre -->
+    <img src="sobre-base.png"
+         class="env-base"
+         alt="Sobre">
 
-            <!-- Triángulo izquierdo interior -->
-            <polygon points="10,90 10,250 130,170"
-                     fill="#ddd5c8" stroke="#c8bfb0" stroke-width="0.8"/>
-            <!-- Triángulo derecho interior -->
-            <polygon points="370,90 370,250 250,170"
-                     fill="#d8d0c5" stroke="#c8bfb0" stroke-width="0.8"/>
-            <!-- Triángulo inferior -->
-            <polygon points="10,250 190,165 370,250"
-                     fill="#d0c8bc" stroke="#c8bfb0" stroke-width="0.8"/>
+    <!-- Tapa -->
+    <img src="sobre-tapa.png"
+         class="env-flap"
+         alt="Tapa">
 
-            <!-- TAPA (se abre) -->
-            <g id="env-flap">
-                <polygon points="10,90 190,188 370,90"
-                         fill="#e0d8cc" stroke="#c8bfb0" stroke-width="1"/>
-                <rect x="10" y="90" width="360" height="10" rx="0"
-                      fill="url(#lino)" opacity="0.5"/>
-            </g>
+    <!-- Sello -->
+    <img src="sello.png"
+         class="env-seal"
+         alt="Sello">
 
-            <!-- SELLO DE CERA -->
-            <g id="env-seal">
-                <!-- Sombra -->
-                <ellipse cx="191" cy="174" rx="30" ry="8" fill="rgba(0,0,0,0.12)"/>
-                <!-- Cera -->
-                <circle cx="190" cy="165" r="28" fill="url(#selloGrad)"/>
-                <circle cx="190" cy="165" r="23" fill="url(#selloInner)" opacity="0.7"/>
-                <!-- Borde decorativo -->
-                <circle cx="190" cy="165" r="26" fill="none" stroke="#a07840" stroke-width="1" opacity="0.6"/>
-                <!-- Texto sello -->
-                <text x="190" y="160" text-anchor="middle"
-                      font-family="'Great Vibes', cursive" font-size="13"
-                      fill="#f5e8d0" opacity="0.95">Y&amp;S</text>
-                <text x="190" y="173" text-anchor="middle"
-                      font-family="Georgia, serif" font-size="6"
-                      letter-spacing="1" fill="#f5e8d0" opacity="0.7">03 · 10 · 26</text>
-            </g>
-
-        </svg>
-    </div>
+</div>
 
     <p class="env-hint show">✦ &nbsp; toca para abrir &nbsp; ✦</p>
 
@@ -491,7 +557,7 @@ function abrirSobre() {
             currentPage = 2; updateUI();
             setTimeout(() => { currentPage = 1; updateUI(); }, 1200);
         }, 500);
-    }, 1500);
+    }, 2200);
 }
 
 /* Añadir clase hidden al CSS dinámicamente */
