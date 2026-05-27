@@ -12,7 +12,11 @@ body {
     font-family: 'Cormorant Garamond', Georgia, serif;
     text-align: center;
     color: #2bb8cc;
-    background: radial-gradient(circle at top, #fffef9, #f8f4ed);
+    background-image: url('Fondo.jpg');
+    background-size: cover;          /* Hace que la imagen cubra toda la pantalla */
+    background-position: center;     /* Centra la imagen */
+    background-attachment: fixed;    /* El fondo se queda fijo al hacer scroll (opcional) */
+    background-repeat: no-repeat;    /* Evita que la imagen se duplique en pantallas grandes */
     overflow-x: hidden;
     min-height: 100vh;
 }
