@@ -349,23 +349,8 @@ footer {
                     <stop offset="45%"  stop-color="#f4ede3"/>
                     <stop offset="100%" stop-color="#eadfce"/>
                 </linearGradient>
-                <radialGradient id="paperWarm" cx="35%" cy="30%" r="70%">
-                    <stop offset="0%"   stop-color="#fffdf9"/>
-                    <stop offset="100%" stop-color="#eadfce"/>
-                </radialGradient>
-
-                <filter id="paperShade" x="-10%" y="-10%" width="120%" height="120%">
-                    <feTurbulence type="fractalNoise" baseFrequency="0.12" numOctaves="1" result="noise"/>
-                    <feColorMatrix in="noise" type="matrix"
-                                   values="1 0 0 0 0
-                                           0 1 0 0 0
-                                           0 0 1 0 0
-                                           0 0 0 0.035 0"/>
-                    <feBlend in="SourceGraphic" mode="multiply"/>
-                </filter>
-
                 <rect id="paperBg" x="0" y="0" width="244" height="220" rx="6"
-                      fill="url(#paperWarm)" filter="url(#paperShade)"/>
+                      fill="#efe4d7"/>
                 <rect x="0.8" y="0.8" width="242.4" height="218.4" rx="6"
                       fill="none" stroke="#b79f88" stroke-opacity="0.35" stroke-width="1.2"/>
                 
@@ -444,7 +429,7 @@ footer {
             <!-- ── Carta interior (ENTRE TAPA Y TRIÁNGULOS LATERALES) ── -->
             <g id="env-letter">
                 <rect x="88" y="55" width="244" height="220" rx="6"
-                      fill="url(#paperBg)" stroke="#e8dfd4" stroke-width="1.5"
+                      fill="#efe4d7" stroke="#e8dfd4" stroke-width="1.5"
                       filter="url(#sombra)"/>
             </g>
 
