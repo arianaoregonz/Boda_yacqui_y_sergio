@@ -343,14 +343,26 @@ footer {
                     <stop offset="0%"   stop-color="#f5ede2"/>
                     <stop offset="100%" stop-color="#e0d5ca"/>
                 </linearGradient>
-                <!-- Fondo de la carta con textura -->
-                <pattern id="paperBg" patternUnits="userSpaceOnUse" width="244" height="220">
-                    <image href="F.png" 
-                        x="-30" 
-                        y="-10" 
-                        width="284" 
-                        height="240" 
-                        preserveAspectRatio="none" />
+                <!-- Fondo de la carta con textura de paleta suave -->
+                <linearGradient id="paperBase" x1="0" x2="1" y1="0" y2="1">
+                    <stop offset="0%"   stop-color="#f7f2ea"/>
+                    <stop offset="45%"  stop-color="#efe6db"/>
+                    <stop offset="100%" stop-color="#e4d8ca"/>
+                </linearGradient>
+                <filter id="paperTexture" x="-10%" y="-10%" width="120%" height="120%">
+                    <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" seed="4" result="noise"/>
+                    <feColorMatrix in="noise" type="matrix"
+                                   values="1 0 0 0 0
+                                           0 1 0 0 0
+                                           0 0 1 0 0
+                                           0 0 0 0.18 0"/>
+                </filter>
+                <pattern id="paperBg" patternUnits="userSpaceOnUse" width="120" height="120">
+                    <rect width="120" height="120" fill="url(#paperBase)"/>
+                    <rect width="120" height="120" fill="#d7cbbd" opacity="0.12" filter="url(#paperTexture)"/>
+                    <path d="M0 0H120V120" fill="none" stroke="#c8b79f" stroke-opacity="0.18" stroke-width="1"/>
+                    <path d="M0 120L120 0" fill="none" stroke="#b79f88" stroke-opacity="0.14" stroke-width="1"/>
+                    <rect x="0.8" y="0.8" width="118.4" height="118.4" rx="4" fill="none" stroke="#a58d78" stroke-opacity="0.18" stroke-width="1.2"/>
                 </pattern>
                 <!-- Sello cera — azul -->
                 <radialGradient id="selloBase" cx="40%" cy="35%" r="60%">
