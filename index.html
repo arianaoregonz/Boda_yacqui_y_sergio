@@ -343,26 +343,23 @@ footer {
                     <stop offset="0%"   stop-color="#f5ede2"/>
                     <stop offset="100%" stop-color="#e0d5ca"/>
                 </linearGradient>
-                <!-- Fondo de la carta con textura plana de papel antiguo -->
+                <!-- Fondo plano de la carta con textura suave y bordes oscuros -->
                 <linearGradient id="paperBase" x1="0" x2="1" y1="0" y2="1">
-                    <stop offset="0%"   stop-color="#f6efe7"/>
-                    <stop offset="45%"  stop-color="#efe5da"/>
-                    <stop offset="100%" stop-color="#e1d6c8"/>
+                    <stop offset="0%"   stop-color="#f7f1e8"/>
+                    <stop offset="55%"  stop-color="#efe5da"/>
+                    <stop offset="100%" stop-color="#e3d7c9"/>
                 </linearGradient>
-                <filter id="paperSoft" x="-10%" y="-10%" width="120%" height="120%">
-                    <feTurbulence type="fractalNoise" baseFrequency="0.35" numOctaves="1" seed="2" result="noise"/>
+                <filter id="paperShade" x="-10%" y="-10%" width="120%" height="120%">
+                    <feTurbulence type="fractalNoise" baseFrequency="0.18" numOctaves="1" seed="1" result="noise"/>
                     <feColorMatrix in="noise" type="matrix"
                                    values="1 0 0 0 0
                                            0 1 0 0 0
                                            0 0 1 0 0
-                                           0 0 0 0.10 0"/>
-                    <feBlend in="SourceGraphic" mode="soft-light"/>
+                                           0 0 0 0.06 0"/>
+                    <feBlend in="SourceGraphic" mode="multiply"/>
                 </filter>
-                <pattern id="paperBg" patternUnits="userSpaceOnUse" width="160" height="160">
-                    <rect width="160" height="160" fill="url(#paperBase)"/>
-                    <rect width="160" height="160" fill="#d7cbbd" opacity="0.14" filter="url(#paperSoft)"/>
-                    <rect x="1" y="1" width="158" height="158" rx="6" fill="none" stroke="#b79f88" stroke-opacity="0.22" stroke-width="1.1"/>
-                </pattern>
+                <rect id="paperBg" x="0" y="0" width="244" height="220" fill="url(#paperBase)" filter="url(#paperShade)"/>
+                <rect x="0.8" y="0.8" width="242.4" height="218.4" rx="6" fill="none" stroke="#b79f88" stroke-opacity="0.28" stroke-width="1.2"/>
                 <!-- Sello cera — azul -->
                 <radialGradient id="selloBase" cx="40%" cy="35%" r="60%">
                     <stop offset="0%"   stop-color="#82f0ff"/>
